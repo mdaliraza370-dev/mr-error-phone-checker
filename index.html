@@ -1,91 +1,1148 @@
-async function analyzeNumber(input) {
-    try {
-        const phoneNumber =
-            libphonenumber.parsePhoneNumber(input, "IN");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        if (!phoneNumber) {
-            showInvalid();
-            return;
-        }
+<title>MR ERROR | Phone Information Checker</title>
 
-        // Local basic information
-        document.getElementById("phone").textContent =
-            phoneNumber.number;
+<script src="https://cdn.jsdelivr.net/npm/libphonenumber-js@1.11.20/bundle/libphonenumber-max.js"></script>
 
-        document.getElementById("country").textContent =
-            phoneNumber.country || "Unknown";
+<style>
 
-        document.getElementById("countryCode").textContent =
-            phoneNumber.country || "Unknown";
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@400;500;600;700&display=swap');
 
-        document.getElementById("callingCode").textContent =
-            "+" + phoneNumber.countryCallingCode;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        document.getElementById("numberType").textContent =
-            phoneNumber.getType() || "Unknown";
+:root {
+    --green: #00ff88;
+    --green2: #00c853;
+    --dark: #020504;
+    --panel: rgba(5, 15, 11, .92);
+    --border: rgba(0,255,136,.25);
+    --text: #d9ffe9;
+    --muted: #7fa993;
+}
 
-        const valid = phoneNumber.isValid();
+body {
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at 50% -10%, rgba(0,255,136,.12), transparent 35%),
+        #010302;
+    color: var(--text);
+    font-family: Rajdhani, sans-serif;
+    overflow-x: hidden;
+}
 
-        document.getElementById("valid").textContent =
-            valid ? "YES" : "NO";
+/* MATRIX */
 
-        document.getElementById("valid").className =
-            valid ? "ok" : "warning";
+#matrix {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    opacity: .13;
+}
 
-        document.getElementById("international").textContent =
-            phoneNumber.formatInternational();
+.scanlines {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 20;
+    background: repeating-linear-gradient(
+        to bottom,
+        rgba(255,255,255,.015) 0,
+        rgba(255,255,255,.015) 1px,
+        transparent 1px,
+        transparent 4px
+    );
+}
 
-        document.getElementById("national").textContent =
-            phoneNumber.formatNational();
+/* HEADER */
 
-        document.getElementById("possible").textContent =
-            phoneNumber.isPossible() ? "YES" : "NO";
+header {
+    width: 100%;
+    padding: 18px 5%;
+    border-bottom: 1px solid var(--border);
+    background: rgba(1,5,3,.9);
+    backdrop-filter: blur(12px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
 
-        document.getElementById("region").textContent =
-            phoneNumber.country || "Unknown";
+.logo {
+    font-family: Orbitron, sans-serif;
+    color: var(--green);
+    font-weight: 800;
+    letter-spacing: 3px;
+    font-size: 20px;
+    text-shadow: 0 0 15px rgba(0,255,136,.7);
+}
+
+.status {
+    color: var(--green);
+    font-size: 13px;
+    letter-spacing: 2px;
+}
+
+.status-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: var(--green);
+    border-radius: 50%;
+    margin-right: 7px;
+    box-shadow: 0 0 12px var(--green);
+    animation: pulse 1.3s infinite;
+}
+
+@keyframes pulse {
+    50% {
+        opacity: .35;
+    }
+}
+
+/* MAIN */
+
+.container {
+    width: min(1200px, 92%);
+    margin: auto;
+    padding: 55px 0;
+}
+
+.hero {
+    text-align: center;
+    margin-bottom: 42px;
+}
+
+.mask-box {
+    width: 105px;
+    height: 105px;
+    margin: auto;
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    padding: 7px;
+    background: rgba(0,255,136,.04);
+    box-shadow:
+        0 0 30px rgba(0,255,136,.12),
+        inset 0 0 25px rgba(0,255,136,.05);
+}
+
+.mask-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 16px;
+}
+
+.hero h1 {
+    font-family: Orbitron, sans-serif;
+    margin-top: 22px;
+    font-size: clamp(30px, 6vw, 62px);
+    color: var(--green);
+    letter-spacing: 5px;
+    text-shadow:
+        0 0 8px var(--green),
+        0 0 30px rgba(0,255,136,.4);
+}
+
+.hero p {
+    color: var(--muted);
+    margin-top: 10px;
+    font-size: 16px;
+    letter-spacing: 2px;
+}
+
+/* SCANNER */
+
+.scanner {
+    border: 1px solid var(--border);
+    background: var(--panel);
+    padding: 28px;
+    border-radius: 18px;
+    box-shadow: 0 0 45px rgba(0,255,136,.06);
+}
+
+.section-title {
+    font-family: Orbitron, sans-serif;
+    color: var(--green);
+    font-size: 15px;
+    letter-spacing: 2px;
+    margin-bottom: 18px;
+}
+
+.input-row {
+    display: flex;
+    gap: 12px;
+}
+
+input {
+    flex: 1;
+    background: #020604;
+    border: 1px solid rgba(0,255,136,.35);
+    color: white;
+    padding: 16px 18px;
+    border-radius: 9px;
+    outline: none;
+    font-family: Rajdhani, sans-serif;
+    font-size: 18px;
+}
+
+input:focus {
+    border-color: var(--green);
+    box-shadow: 0 0 20px rgba(0,255,136,.12);
+}
+
+button {
+    border: 1px solid var(--green);
+    background: rgba(0,255,136,.08);
+    color: var(--green);
+    padding: 0 25px;
+    border-radius: 9px;
+    cursor: pointer;
+    font-family: Orbitron, sans-serif;
+    font-weight: 700;
+    letter-spacing: 1px;
+    transition: .25s;
+}
+
+button:hover {
+    background: var(--green);
+    color: #00150b;
+    box-shadow: 0 0 25px rgba(0,255,136,.35);
+}
+
+/* PROGRESS */
+
+.progress-area {
+    display: none;
+    margin-top: 20px;
+}
+
+.progress-bar {
+    height: 7px;
+    border-radius: 10px;
+    background: #06110b;
+    overflow: hidden;
+    border: 1px solid rgba(0,255,136,.15);
+}
+
+.progress-fill {
+    width: 0%;
+    height: 100%;
+    background: var(--green);
+    box-shadow: 0 0 15px var(--green);
+    transition: width .1s linear;
+}
+
+.scan-text {
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+/* DASHBOARD */
+
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    margin-top: 25px;
+}
+
+.card {
+    background: rgba(3,10,7,.92);
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    padding: 22px;
+    min-height: 180px;
+}
+
+.card h2 {
+    font-family: Orbitron, sans-serif;
+    color: var(--green);
+    font-size: 14px;
+    letter-spacing: 1.5px;
+    margin-bottom: 18px;
+    border-bottom: 1px solid rgba(0,255,136,.13);
+    padding-bottom: 12px;
+}
+
+.info {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 8px 0;
+    border-bottom: 1px dashed rgba(0,255,136,.08);
+}
+
+.info span:first-child {
+    color: var(--muted);
+}
+
+.info span:last-child {
+    color: #eafff2;
+    text-align: right;
+    word-break: break-word;
+}
+
+.ok {
+    color: var(--green) !important;
+}
+
+.warning {
+    color: #ffd166 !important;
+}
+
+/* TOOLS */
+
+.tools {
+    margin-top: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.tool {
+    padding: 14px;
+    border: 1px solid rgba(0,255,136,.16);
+    border-radius: 10px;
+    background: rgba(0,255,136,.025);
+    text-align: center;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+/* TERMINAL */
+
+.terminal {
+    margin-top: 20px;
+    background: #010201;
+    border: 1px solid rgba(0,255,136,.22);
+    border-radius: 14px;
+    padding: 18px;
+    font-family: monospace;
+    color: #75ffb0;
+    min-height: 125px;
+    box-shadow: inset 0 0 30px rgba(0,255,136,.03);
+}
+
+.terminal-line {
+    margin: 5px 0;
+}
+
+.cursor {
+    display: inline-block;
+    width: 8px;
+    height: 15px;
+    background: var(--green);
+    animation: blink .8s infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+/* FOOTER */
+
+footer {
+    text-align: center;
+    color: #557563;
+    padding: 25px;
+    font-size: 13px;
+}
+
+footer b {
+    color: var(--green);
+}
+
+/* RESPONSIVE */
+
+@media(max-width: 750px) {
+
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+
+    .tools {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .input-row {
+        flex-direction: column;
+    }
+
+    button {
+        height: 52px;
+    }
+
+    header {
+        padding: 15px 4%;
+    }
+
+    .status {
+        font-size: 10px;
+    }
+}
+
+@media(max-width: 430px) {
+
+    .tools {
+        grid-template-columns: 1fr;
+    }
+
+    .scanner,
+    .card {
+        padding: 17px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<canvas id="matrix"></canvas>
+
+<div class="scanlines"></div>
+
+<header>
+
+    <div class="logo">
+        MR SONU
+    </div>
+
+    <div class="status">
+        <span class="status-dot"></span>
+        SYSTEM ONLINE
+    </div>
+
+</header>
 
 
-        // ============================
-        // NUMVERIFY API
-        // ============================
+<main class="container">
 
-        const response = await fetch(
-            `/api/scan?number=${encodeURIComponent(input)}`
+    <section class="hero">
+
+        <div class="mask-box">
+
+            <img
+                src="mask.png"
+                alt="MR ERROR Mask"
+                onerror="this.style.display='none'; this.parentElement.innerHTML='◉◡◉';"
+            >
+
+        </div>
+
+        <h1>MR ERROR</h1>
+
+        <p>PHONE INFORMATION CHECKER</p>
+
+    </section>
+
+
+    <section class="scanner">
+
+        <div class="section-title">
+            // PHONE NUMBER SCANNER
+        </div>
+
+        <div class="input-row">
+
+            <input
+                id="phoneInput"
+                type="tel"
+                placeholder="+91 98### ##"
+                autocomplete="off"
+            >
+
+            <button onclick="scanNumber()">
+                SCAN
+            </button>
+
+        </div>
+
+
+        <div class="progress-area" id="progressArea">
+
+            <div class="progress-bar">
+
+                <div
+                    class="progress-fill"
+                    id="progressFill">
+                </div>
+
+            </div>
+
+            <div
+                class="scan-text"
+                id="scanText">
+
+                Initializing scanner...
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="dashboard">
+
+
+        <!-- PHONE INFORMATION -->
+
+        <div class="card">
+
+            <h2>01 // PHONE INFORMATION</h2>
+
+            <div class="info">
+                <span>Phone Number</span>
+                <span id="phone">—</span>
+            </div>
+
+            <div class="info">
+                <span>Country</span>
+                <span id="country">—</span>
+            </div>
+
+            <div class="info">
+                <span>Country Code</span>
+                <span id="countryCode">—</span>
+            </div>
+
+            <div class="info">
+                <span>Calling Code</span>
+                <span id="callingCode">—</span>
+            </div>
+
+            <div class="info">
+                <span>Number Type</span>
+                <span id="numberType">—</span>
+            </div>
+
+            <div class="info">
+                <span>Valid</span>
+                <span id="valid">—</span>
+            </div>
+
+        </div>
+
+
+        <!-- NUMBER DETAILS -->
+
+        <div class="card">
+
+            <h2>02 // NUMBER DETAILS</h2>
+
+            <div class="info">
+                <span>International</span>
+                <span id="international">—</span>
+            </div>
+
+            <div class="info">
+                <span>National</span>
+                <span id="national">—</span>
+            </div>
+
+            <div class="info">
+                <span>Possible</span>
+                <span id="possible">—</span>
+            </div>
+
+            <div class="info">
+                <span>Region</span>
+                <span id="region">—</span>
+            </div>
+
+            <div class="info">
+                <span>Timezone</span>
+                <span id="timezone">Not available</span>
+            </div>
+
+            <div class="info">
+                <span>Carrier</span>
+                <span id="carrier">Not available</span>
+            </div>
+
+        </div>
+
+
+        <!-- PRIVACY SAFE -->
+
+        <div class="card">
+
+            <h2>03 // PRIVACY SAFE DATA</h2>
+
+            <div class="info">
+                <span>Person Name</span>
+                <span class="warning">Not available</span>
+            </div>
+
+            <div class="info">
+                <span>Home Address</span>
+                <span class="warning">Not available</span>
+            </div>
+
+            <div class="info">
+                <span>Live Location</span>
+                <span class="warning">Not available</span>
+            </div>
+
+            <div class="info">
+                <span>Email Account</span>
+                <span class="warning">Not available</span>
+            </div>
+
+            <div class="info">
+                <span>OTP / Password</span>
+                <span class="warning">Never exposed</span>
+            </div>
+
+        </div>
+
+
+        <!-- ONLINE SERVICES -->
+
+        <div class="card">
+
+            <h2>04 // ONLINE SERVICES</h2>
+
+            <div class="info">
+                <span>WhatsApp</span>
+                <span class="warning">Not checked</span>
+            </div>
+
+            <div class="info">
+                <span>Telegram</span>
+                <span class="warning">Not checked</span>
+            </div>
+
+            <div class="info">
+                <span>Instagram</span>
+                <span class="warning">Not checked</span>
+            </div>
+
+            <div class="info">
+                <span>Facebook</span>
+                <span class="warning">Not checked</span>
+            </div>
+
+            <div class="info">
+                <span>Gmail</span>
+                <span class="warning">Not checked</span>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- QUICK TOOLS -->
+
+    <section class="tools">
+
+        <div class="tool">
+            ☎ Number Validation
+        </div>
+
+        <div class="tool">
+            🌍 Region Check
+        </div>
+
+        <div class="tool">
+            📡 Calling Code
+        </div>
+
+        <div class="tool">
+            🔎 Format Check
+        </div>
+
+        <div class="tool">
+            🛡 Privacy Safe
+        </div>
+
+        <div class="tool">
+            ⚡ Live Scanner
+        </div>
+
+    </section>
+
+
+    <!-- TERMINAL -->
+
+    <section
+        class="terminal"
+        id="terminal">
+
+        <div class="terminal-line">
+            [SYSTEM] MR ERROR scanner initialized...
+        </div>
+
+        <div class="terminal-line">
+            [SYSTEM] Waiting for phone number...
+        </div>
+
+        <div class="terminal-line">
+            [INFO] Technical/public metadata only.
+        </div>
+
+        <div class="terminal-line">
+            [FOLLOW] mr_error_32
+        </div>
+
+        <div class="terminal-line">
+            <span class="cursor"></span>
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer>
+    mr_error_32 © 2026 — <b>Privacy First</b>
+</footer>
+
+
+<script>
+
+/* ============================
+   MATRIX EFFECT
+============================ */
+
+const canvas = document.getElementById("matrix");
+
+const ctx = canvas.getContext("2d");
+
+let width = canvas.width = window.innerWidth;
+
+let height = canvas.height = window.innerHeight;
+
+const chars =
+    "01ABCDEFGHIJKLMNOPQRSTUVWXYZ#$%&@<>[]{}";
+
+const fontSize = 14;
+
+let columns =
+    Math.floor(width / fontSize);
+
+let drops =
+    Array(columns).fill(1);
+
+
+function drawMatrix() {
+
+    ctx.fillStyle =
+        "rgba(0, 0, 0, 0.08)";
+
+    ctx.fillRect(
+        0,
+        0,
+        width,
+        height
+    );
+
+    ctx.fillStyle =
+        "#00ff88";
+
+    ctx.font =
+        fontSize + "px monospace";
+
+
+    for (
+        let i = 0;
+        i < drops.length;
+        i++
+    ) {
+
+        const char =
+            chars[
+                Math.floor(
+                    Math.random() *
+                    chars.length
+                )
+            ];
+
+
+        ctx.fillText(
+            char,
+            i * fontSize,
+            drops[i] * fontSize
         );
 
-        const data = await response.json();
+
+        if (
+            drops[i] * fontSize > height &&
+            Math.random() > .975
+        ) {
+
+            drops[i] = 0;
+
+        }
+
+        drops[i]++;
+
+    }
+
+}
+
+
+setInterval(
+    drawMatrix,
+    45
+);
+
+
+window.addEventListener(
+    "resize",
+    () => {
+
+        width =
+            canvas.width =
+            window.innerWidth;
+
+        height =
+            canvas.height =
+            window.innerHeight;
+
+        columns =
+            Math.floor(
+                width / fontSize
+            );
+
+        drops =
+            Array(columns).fill(1);
+
+    }
+);
+
+
+/* ============================
+   PHONE SCANNER
+============================ */
+
+function scanNumber() {
+
+    const input =
+        document
+            .getElementById("phoneInput")
+            .value
+            .trim();
+
+
+    if (!input) {
+
+        alert(
+            "Please enter a phone number."
+        );
+
+        return;
+
+    }
+
+
+    const progressArea =
+        document.getElementById(
+            "progressArea"
+        );
+
+    const progressFill =
+        document.getElementById(
+            "progressFill"
+        );
+
+    const scanText =
+        document.getElementById(
+            "scanText"
+        );
+
+
+    progressArea.style.display =
+        "block";
+
+    progressFill.style.width =
+        "0%";
+
+
+    const terminal =
+        document.getElementById(
+            "terminal"
+        );
+
+
+    terminal.innerHTML = `
+
+        <div class="terminal-line">
+            [SYSTEM] Scanner started...
+        </div>
+
+        <div class="terminal-line">
+            [INPUT] ${escapeHTML(input)}
+        </div>
+
+    `;
+
+
+    let progress = 0;
+
+
+    const interval =
+        setInterval(() => {
+
+            progress += 2;
+
+
+            progressFill.style.width =
+                progress + "%";
+
+
+            if (progress < 30) {
+
+                scanText.textContent =
+                    "Parsing phone number...";
+
+            }
+
+            else if (progress < 55) {
+
+                scanText.textContent =
+                    "Checking number format...";
+
+            }
+
+            else if (progress < 75) {
+
+                scanText.textContent =
+                    "Checking region metadata...";
+
+            }
+
+            else if (progress < 95) {
+
+                scanText.textContent =
+                    "Finalizing results...";
+
+            }
+
+            else {
+
+                scanText.textContent =
+                    "Scan complete.";
+
+            }
+
+
+            if (progress >= 100) {
+
+                clearInterval(interval);
+
+                analyzeNumber(input);
+
+            }
+
+        }, 25);
+
+}
+
+
+/* ============================
+   ANALYZE NUMBER
+============================ */
+
+async function analyzeNumber(input) {
+
+    try {
+
+        const phoneNumber =
+            libphonenumber.parsePhoneNumber(
+                input,
+                "IN"
+            );
+
+
+        if (!phoneNumber) {
+
+            showInvalid();
+
+            return;
+
+        }
+
+
+        /* LOCAL INFORMATION */
+
+        document.getElementById(
+            "phone"
+        ).textContent =
+            phoneNumber.number;
+
+
+        document.getElementById(
+            "country"
+        ).textContent =
+            phoneNumber.country ||
+            "Unknown";
+
+
+        document.getElementById(
+            "countryCode"
+        ).textContent =
+            phoneNumber.country ||
+            "Unknown";
+
+
+        document.getElementById(
+            "callingCode"
+        ).textContent =
+            "+" +
+            phoneNumber.countryCallingCode;
+
+
+        document.getElementById(
+            "numberType"
+        ).textContent =
+            phoneNumber.getType() ||
+            "Unknown";
+
+
+        const valid =
+            phoneNumber.isValid();
+
+
+        document.getElementById(
+            "valid"
+        ).textContent =
+            valid
+                ? "YES"
+                : "NO";
+
+
+        document.getElementById(
+            "valid"
+        ).className =
+            valid
+                ? "ok"
+                : "warning";
+
+
+        document.getElementById(
+            "international"
+        ).textContent =
+            phoneNumber
+                .formatInternational();
+
+
+        document.getElementById(
+            "national"
+        ).textContent =
+            phoneNumber
+                .formatNational();
+
+
+        document.getElementById(
+            "possible"
+        ).textContent =
+            phoneNumber.isPossible()
+                ? "YES"
+                : "NO";
+
+
+        document.getElementById(
+            "region"
+        ).textContent =
+            phoneNumber.country ||
+            "Unknown";
+
+
+        /* ============================
+           NUMVERIFY API
+        ============================ */
+
+
+        const response =
+            await fetch(
+                "/api/scan?number=" +
+                encodeURIComponent(input)
+            );
+
+
+        const data =
+            await response.json();
+
 
         if (!response.ok) {
-            throw new Error(data.error || "API request failed");
+
+            throw new Error(
+                data.error ||
+                "API request failed"
+            );
+
         }
 
 
-        // Carrier
-        document.getElementById("carrier").textContent =
-            data.carrier || "Not available";
+        /* CARRIER */
+
+        document.getElementById(
+            "carrier"
+        ).textContent =
+            data.carrier ||
+            "Not available";
 
 
-        // Timezone
-        let timezone = data.timezone;
+        /* TIMEZONE */
 
-        if (Array.isArray(timezone)) {
-            timezone = timezone.join(", ");
+        let timezone =
+            data.timezone;
+
+
+        if (
+            Array.isArray(timezone)
+        ) {
+
+            timezone =
+                timezone.join(", ");
+
         }
 
-        document.getElementById("timezone").textContent =
-            timezone || "Not available";
+
+        document.getElementById(
+            "timezone"
+        ).textContent =
+            timezone ||
+            "Not available";
 
 
-        // Region / location from API if available
+        /* LOCATION */
+
         if (data.location) {
-            document.getElementById("region").textContent =
+
+            document.getElementById(
+                "region"
+            ).textContent =
                 data.location;
+
         }
 
 
-        // Terminal
+        /* TERMINAL */
+
         const terminal =
-            document.getElementById("terminal");
+            document.getElementById(
+                "terminal"
+            );
+
 
         terminal.innerHTML += `
 
@@ -94,30 +1151,39 @@ async function analyzeNumber(input) {
             </div>
 
             <div class="terminal-line">
-                [OK] Country: ${escapeHTML(
-                    data.country_code || phoneNumber.country || "Unknown"
+                [OK] Country:
+                ${escapeHTML(
+                    data.country_code ||
+                    phoneNumber.country ||
+                    "Unknown"
                 )}
             </div>
 
             <div class="terminal-line">
-                [OK] Calling Code: +${escapeHTML(
+                [OK] Calling Code:
+                +${escapeHTML(
                     phoneNumber.countryCallingCode
                 )}
             </div>
 
             <div class="terminal-line">
-                [OK] Valid: ${data.valid ? "YES" : "NO"}
+                [OK] Valid:
+                ${data.valid ? "YES" : "NO"}
             </div>
 
             <div class="terminal-line">
-                [API] Carrier: ${escapeHTML(
-                    data.carrier || "Not available"
+                [API] Carrier:
+                ${escapeHTML(
+                    data.carrier ||
+                    "Not available"
                 )}
             </div>
 
             <div class="terminal-line">
-                [API] Location: ${escapeHTML(
-                    data.location || "Not available"
+                [API] Location:
+                ${escapeHTML(
+                    data.location ||
+                    "Not available"
                 )}
             </div>
 
@@ -126,21 +1192,204 @@ async function analyzeNumber(input) {
             </div>
 
             <div class="terminal-line">
-                root@mr-error:~$ <span class="cursor"></span>
+                root@mr-error:~$
+                <span class="cursor"></span>
             </div>
 
         `;
 
-    } catch (error) {
+
+    }
+
+    catch (error) {
 
         console.error(error);
 
+
         showInvalid();
 
-        document.getElementById("terminal").innerHTML += `
+
+        document.getElementById(
+            "terminal"
+        ).innerHTML += `
+
             <div class="terminal-line">
-                [ERROR] ${escapeHTML(error.message)}
+                [ERROR]
+                ${escapeHTML(
+                    error.message
+                )}
             </div>
+
+            <div class="terminal-line">
+                root@mr-error:~$
+                <span class="cursor"></span>
+            </div>
+
         `;
+
     }
+
 }
+
+
+/* ============================
+   INVALID NUMBER
+============================ */
+
+function showInvalid() {
+
+    document.getElementById(
+        "phone"
+    ).textContent =
+        "Invalid";
+
+
+    document.getElementById(
+        "country"
+    ).textContent =
+        "Unknown";
+
+
+    document.getElementById(
+        "countryCode"
+    ).textContent =
+        "—";
+
+
+    document.getElementById(
+        "callingCode"
+    ).textContent =
+        "—";
+
+
+    document.getElementById(
+        "numberType"
+    ).textContent =
+        "Unknown";
+
+
+    document.getElementById(
+        "valid"
+    ).textContent =
+        "NO";
+
+
+    document.getElementById(
+        "valid"
+    ).className =
+        "warning";
+
+
+    document.getElementById(
+        "international"
+    ).textContent =
+        "—";
+
+
+    document.getElementById(
+        "national"
+    ).textContent =
+        "—";
+
+
+    document.getElementById(
+        "possible"
+    ).textContent =
+        "NO";
+
+
+    document.getElementById(
+        "region"
+    ).textContent =
+        "Unknown";
+
+
+    document.getElementById(
+        "carrier"
+    ).textContent =
+        "Not available";
+
+
+    document.getElementById(
+        "timezone"
+    ).textContent =
+        "Not available";
+
+
+    document.getElementById(
+        "terminal"
+    ).innerHTML += `
+
+        <div class="terminal-line">
+            [ERROR] Invalid or unsupported number.
+        </div>
+
+        <div class="terminal-line">
+            root@mr-error:~$
+            <span class="cursor"></span>
+        </div>
+
+    `;
+
+}
+
+
+/* ============================
+   HTML ESCAPE
+============================ */
+
+function escapeHTML(value) {
+
+    return String(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+/* ENTER KEY */
+
+document
+    .getElementById("phoneInput")
+    .addEventListener(
+        "keydown",
+        function(event) {
+
+            if (
+                event.key === "Enter"
+            ) {
+
+                scanNumber();
+
+            }
+
+        }
+    );
+
+</script>
+
+</body>
+</html>
