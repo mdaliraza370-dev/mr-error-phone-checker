@@ -8,6 +8,34 @@
 
 <script src="https://cdn.jsdelivr.net/npm/libphonenumber-js@1.11.20/bundle/libphonenumber-max.js"></script>
 
+<script>
+/* PREMIUM PLAN FLOW */
+function openPremiumPlans(){
+    const modal=document.getElementById('premiumPlanModal');
+    if(!modal)return;
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden','false');
+}
+function closePremiumPlans(){
+    const modal=document.getElementById('premiumPlanModal');
+    if(!modal)return;
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden','true');
+}
+function selectPremiumPlan(name,price){
+    const contact=document.getElementById('premiumInstagramContact');
+    if(contact){
+        contact.classList.add('show');
+        contact.setAttribute('aria-hidden','false');
+    }
+}
+document.addEventListener('click',function(e){
+    const modal=document.getElementById('premiumPlanModal');
+    if(e.target===modal) closePremiumPlans();
+});
+
+</script>
+
 <style>
 
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@400;500;600;700&display=swap');
@@ -416,6 +444,90 @@ footer b {
     }
 }
 
+
+/* PREMIUM PROCESS CARDS */
+.premium-banner { margin: 18px 0 14px; padding: 18px 20px; border: 1px solid rgba(212,175,55,.55); border-radius: 14px; background: linear-gradient(135deg,rgba(8,8,8,.98),rgba(20,20,12,.95)); box-shadow: 0 0 24px rgba(212,175,55,.10), inset 0 0 20px rgba(0,255,136,.03); text-align:center; }
+.premium-banner .premium-icon { font-size: 25px; }
+.premium-banner strong { display:block; margin-top:5px; color:#d4af37; letter-spacing:2px; font-size:16px; }
+.premium-banner span { display:block; margin-top:5px; color:#a9b5ad; font-size:13px; }
+.premium-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
+.premium-item { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:13px 14px; border:1px solid rgba(212,175,55,.28); border-radius:10px; background:linear-gradient(135deg,rgba(0,255,136,.035),rgba(212,175,55,.045)); }
+.premium-item .name { color:#eafff2; }
+.premium-badge { white-space:nowrap; color:#d4af37; font-size:10px; font-weight:700; letter-spacing:1px; border:1px solid rgba(212,175,55,.45); border-radius:999px; padding:5px 8px; transition:.25s ease; }
+.premium-badge.view-details { color:var(--green); border-color:rgba(0,255,136,.45); background:rgba(0,255,136,.05); box-shadow:0 0 12px rgba(0,255,136,.08); }
+@media(max-width:600px){.premium-grid{grid-template-columns:1fr;}}
+
+
+/* PHOTO-FREE CYBER HERO */
+.hero { position: relative; overflow: hidden; }
+.hero::before {
+    content: ""; position: absolute; width: 280px; height: 280px;
+    left: 50%; top: 48%; transform: translate(-50%,-50%);
+    border: 1px solid rgba(0,255,136,.14); border-radius: 50%;
+    box-shadow: 0 0 70px rgba(0,255,136,.10), inset 0 0 60px rgba(0,255,136,.05);
+    pointer-events:none;
+}
+.hero h1, .hero p { position: relative; z-index: 1; }
+
+        .service-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:13px 15px;margin:9px 0;border:1px solid rgba(0,255,136,.13);border-radius:11px;background:rgba(0,255,136,.025);transition:.2s ease;}
+        .service-row:hover{border-color:rgba(0,255,136,.38);background:rgba(0,255,136,.05);transform:translateY(-1px);}
+        .service-name{display:flex;align-items:center;gap:12px;color:#eafff2;font-weight:650;}
+        .service-logo{width:34px;height:34px;display:grid;place-items:center;flex:0 0 34px;border-radius:9px;background:#111;border:1px solid rgba(255,255,255,.14);overflow:hidden;box-shadow:0 0 12px rgba(0,255,136,.08);}
+        .service-logo img{width:22px;height:22px;display:block;}
+        .service-logo.whatsapp{background:#25D366;}
+        .service-logo.telegram{background:#26A5E4;}
+        .service-logo.instagram{background:linear-gradient(135deg,#F58529,#DD2A7B,#8134AF,#515BD4);}
+        .service-logo.facebook{background:#1877F2;}
+        .service-logo.gmail{background:#fff;}
+        .service-logo.snapchat{background:#FFFC00;}
+
+
+/* PREMIUM BOX ANIMATION — shared by Online Services + Privacy Safe Data */
+.premium-animated{
+    position:relative;
+    overflow:hidden;
+    border-color:rgba(0,255,136,.30);
+    animation:premiumBoxGlow 2.8s ease-in-out infinite;
+}
+.premium-animated::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:15px;
+    pointer-events:none;
+    box-shadow:inset 0 0 28px rgba(0,255,136,.045);
+}
+@keyframes premiumBoxGlow{
+    0%,100%{box-shadow:0 0 18px rgba(0,255,136,.05), inset 0 0 22px rgba(0,255,136,.025);}
+    50%{box-shadow:0 0 34px rgba(0,255,136,.18), inset 0 0 30px rgba(0,255,136,.06);}
+}
+.privacy-label{display:flex;align-items:center;gap:10px;color:var(--muted);}
+.privacy-logo{width:30px;height:30px;display:grid;place-items:center;flex:0 0 30px;border:1px solid rgba(0,255,136,.24);border-radius:8px;background:rgba(0,255,136,.06);color:var(--green);font-size:17px;box-shadow:0 0 12px rgba(0,255,136,.07);}
+.premium-animated .info{position:relative;z-index:1;}
+
+
+/* PREMIUM PLAN SELECTION */
+.premium-clickable{cursor:pointer;}
+.premium-clickable:hover{border-color:rgba(212,175,55,.65);box-shadow:0 0 18px rgba(212,175,55,.10);}
+.premium-plan-modal{display:none;position:fixed;inset:0;z-index:100;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.78);backdrop-filter:blur(8px);}
+.premium-plan-modal.open{display:flex;}
+.premium-plan-box{width:min(520px,100%);padding:24px;border:1px solid rgba(212,175,55,.45);border-radius:16px;background:linear-gradient(145deg,#07100b,#11130d);box-shadow:0 0 45px rgba(0,255,136,.12);}
+.premium-plan-title{font-family:Orbitron,sans-serif;color:#d4af37;text-align:center;letter-spacing:2px;font-size:16px;}
+.premium-plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px;}
+.premium-plan{padding:15px 10px;border:1px solid rgba(212,175,55,.32);border-radius:11px;background:rgba(212,175,55,.04);text-align:center;cursor:pointer;transition:.25s ease;}
+.premium-plan:hover{transform:translateY(-2px);border-color:#d4af37;box-shadow:0 0 20px rgba(212,175,55,.12);}
+.premium-plan strong{display:block;color:#eafff2;font-family:Orbitron,sans-serif;font-size:12px;}
+.premium-plan span{display:block;margin-top:7px;color:#d4af37;font-weight:800;font-size:18px;}
+.premium-modal-close{display:block;width:100%;margin-top:14px;padding:10px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.04);color:#a9b5ad;border-radius:9px;cursor:pointer;}
+.premium-instagram-contact{display:none;margin-top:16px;padding:17px;border:1px solid rgba(0,255,136,.28);border-radius:12px;background:rgba(0,255,136,.035);box-shadow:0 0 24px rgba(0,255,136,.07);text-align:center;}
+.premium-instagram-contact.show{display:block;animation:premiumContactGlow 2.2s ease-in-out infinite;}
+.premium-instagram-title{font-family:Orbitron,sans-serif;color:var(--green);font-size:12px;letter-spacing:1.5px;}
+.premium-instagram-id{margin-top:7px;color:#eafff2;font-size:21px;font-weight:800;letter-spacing:.5px;}
+.premium-instagram-text{margin:7px 0 12px;color:var(--muted);font-size:13px;}
+.premium-instagram-btn{display:inline-block;padding:10px 16px;border:1px solid var(--green);border-radius:8px;background:rgba(0,255,136,.08);color:var(--green);text-decoration:none;font-family:Orbitron,sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;}
+@keyframes premiumContactGlow{0%,100%{box-shadow:0 0 20px rgba(0,255,136,.05)}50%{box-shadow:0 0 30px rgba(0,255,136,.16)}}
+@media(max-width:600px){.premium-plan-grid{grid-template-columns:1fr;}}
+
 </style>
 </head>
 
@@ -428,7 +540,7 @@ footer b {
 <header>
 
     <div class="logo">
-        MR SONU
+        MR ERROR
     </div>
 
     <div class="status">
@@ -441,16 +553,6 @@ footer b {
 <main class="container">
 
     <section class="hero">
-
-        <div class="mask-box">
-
-            <img
-                src="mask.png"
-                alt="MR ERROR Mask"
-                onerror="this.style.display='none'; this.parentElement.innerHTML='◉◡◉';"
-            >
-
-        </div>
 
         <h1>MR ERROR</h1>
 
@@ -596,68 +698,135 @@ footer b {
 
         </div>
 
-        <div class="card">
+        <div class="card premium-animated">
 
-            <h2>03 // PRIVACY SAFE DATA</h2>
+            <div class="premium-banner"><div class="premium-icon">🔒</div><strong>PREMIUM FEATURES</strong><span> </span></div>
+<h2>04 // ONLINE SERVICES — PREMIUM</h2>
 
-            <div class="info">
-                <span>Person Name</span>
-                <span class="warning">Not available</span>
+            <div style="padding:18px 10px;text-align:center;border:1px solid rgba(0,255,136,.16);border-radius:10px;background:rgba(0,255,136,.025);margin-bottom:14px;">
+                
+                
+                <div style="color:var(--muted);font-size:13px;margin-top:7px;"></div>
+                
             </div>
 
-            <div class="info">
-                <span>Home Address</span>
-                <span class="warning">Not available</span>
+            <div class="service-row premium-clickable" onclick="openPremiumPlans()">
+                <span class="service-name"><span class="service-logo whatsapp"><img src="https://cdn.simpleicons.org/whatsapp/FFFFFF" alt="WhatsApp"></span>WhatsApp</span>
+                <span class="premium-badge">🔒 PREMIUM</span>
             </div>
 
-            <div class="info">
-                <span>Live Location</span>
-                <span class="warning">Not available</span>
+            <div class="service-row premium-clickable" onclick="openPremiumPlans()">
+                <span class="service-name"><span class="service-logo telegram"><img src="https://cdn.simpleicons.org/telegram/FFFFFF" alt="Telegram"></span>Telegram</span>
+                <span class="premium-badge">🔒 PREMIUM</span>
             </div>
 
-            <div class="info">
+            <div class="service-row premium-clickable" onclick="openPremiumPlans()">
+                <span class="service-name"><span class="service-logo instagram"><img src="https://cdn.simpleicons.org/instagram/FFFFFF" alt="Instagram"></span>Instagram</span>
+                <span class="premium-badge">🔒 PREMIUM</span>
+            </div>
+
+            <div class="service-row premium-clickable" onclick="openPremiumPlans()">
+                <span class="service-name"><span class="service-logo facebook"><img src="https://cdn.simpleicons.org/facebook/FFFFFF" alt="Facebook"></span>Facebook</span>
+                <span class="premium-badge">🔒 PREMIUM</span>
+            </div>
+
+            <div class="service-row premium-clickable" onclick="openPremiumPlans()">
+                <span class="service-name"><span class="service-logo gmail"><img src="https://cdn.simpleicons.org/gmail/EA4335" alt="Gmail"></span>Gmail</span>
+                <span class="premium-badge">🔒 PREMIUM</span>
+            </div>
+
+            <div class="service-row premium-clickable" onclick="openPremiumPlans()">
+                <span class="service-name"><span class="service-logo snapchat"><img src="https://cdn.simpleicons.org/snapchat/000000" alt="Snapchat"></span>Snapchat</span>
+                <span class="premium-badge">🔒 PREMIUM</span>
+            </div>
+
+            <div style="padding:18px 10px 5px;text-align:center;">
+                
+            </div>
+
+        </div>
+
+        <div class="card premium-animated">
+
+            <div class="premium-banner"><div class="premium-icon">🔒</div><strong>PREMIUM FEATURES</strong><span> </span></div>
+<h2>03 // PRIVACY SAFE DATA — PREMIUM</h2>
+
+            <div style="padding:18px 10px;text-align:center;border:1px solid rgba(0,255,136,.16);border-radius:10px;background:rgba(0,255,136,.025);margin-bottom:14px;">
+                
+                
+                <div style="color:var(--muted);font-size:13px;margin-top:7px;"></div>
+                
+            </div>
+
+            <div class="info premium-clickable" onclick="openPremiumPlans()">
+                <span class="privacy-label"><span class="privacy-logo">👤</span>Person Name</span>
+                <span class="premium-badge">🔒 PREMIUM</span>
+            </div>
+
+            <div class="info premium-clickable" onclick="openPremiumPlans()">
+                <span class="privacy-label"><span class="privacy-logo">🏠</span>Home Address</span>
+                <span class="premium-badge">🔒 PREMIUM</span>
+            </div>
+
+            <div class="info premium-clickable" onclick="openPremiumPlans()">
+                <span class="privacy-label"><span class="privacy-logo">📍</span>Live Location</span>
+                <span class="premium-badge">🔒 PREMIUM</span>
+            </div>
+
+            <div class="info premium-clickable" onclick="openPremiumPlans()">
                 <span>Email Account</span>
-                <span class="warning">Not available</span>
+                <span class="premium-badge">🔒 PREMIUM</span>
             </div>
 
-            <div class="info">
+            <div class="info premium-clickable" onclick="openPremiumPlans()">
                 <span>OTP / Password</span>
-                <span class="warning">Never exposed</span>
+                <span class="premium-badge">🔒 PREMIUM</span>
+            </div>
+
+            <div class="info premium-clickable" onclick="openPremiumPlans()">
+                <span>🪪 Aadhaar Verification</span>
+                <span class="premium-badge">🔒 PREMIUM</span>
+            </div>
+
+            <div class="info premium-clickable" onclick="openPremiumPlans()">
+                <span>💳 PAN Verification</span>
+                <span class="premium-badge">🔒 PREMIUM</span>
+            </div>
+
+            <div class="info premium-clickable" onclick="openPremiumPlans()">
+                <span>📄 SIM Registration Details</span>
+                <span class="premium-badge">🔒 PREMIUM</span>
             </div>
 
         </div>
 
-        <div class="card">
+    </section>
 
-            <h2>04 // ONLINE SERVICES</h2>
+    
 
-            <div class="info">
-                <span>WhatsApp</span>
-                <span class="warning">Not checked</span>
-            </div>
+<div class="premium-plan-modal" id="premiumPlanModal" aria-hidden="true">
+  <div class="premium-plan-box">
+    <div class="premium-plan-title">💎 SELECT PREMIUM PLAN</div>
+    <div class="premium-plan-grid">
+      <div class="premium-plan" onclick="selectPremiumPlan('Premium','₹199')"><strong>💎 PREMIUM</strong><span>₹199</span></div>
+      <div class="premium-plan" onclick="selectPremiumPlan('Pro','₹499')"><strong>🚀 PRO</strong><span>₹499</span></div>
+      <div class="premium-plan" onclick="selectPremiumPlan('Advanced','₹999')"><strong>⚡ ADVANCED</strong><span>₹999</span></div>
+    </div>
+    <div class="premium-instagram-contact" id="premiumInstagramContact" aria-hidden="true">
+      <div class="premium-instagram-title">📸 CONTACT OWNER</div>
+      <div class="premium-instagram-id">@its_sonu_0034</div>
+      <div class="premium-instagram-text">Contact the owner on Instagram to complete your purchase after selecting a plan.</div>
+      <a class="premium-instagram-btn" href="https://www.instagram.com/its_sonu_0034/" target="_blank" rel="noopener noreferrer">OPEN INSTAGRAM</a>
+    </div>
+    <button class="premium-modal-close" type="button" onclick="closePremiumPlans()">CLOSE</button>
+  </div>
+</div>
 
-            <div class="info">
-                <span>Telegram</span>
-                <span class="warning">Not checked</span>
-            </div>
-
-            <div class="info">
-                <span>Instagram</span>
-                <span class="warning">Not checked</span>
-            </div>
-
-            <div class="info">
-                <span>Facebook</span>
-                <span class="warning">Not checked</span>
-            </div>
-
-            <div class="info">
-                <span>Gmail</span>
-                <span class="warning">Not checked</span>
-            </div>
-
-        </div>
-
+    <section class="instagram-card" style="margin-top:20px;padding:22px;border:1px solid var(--border);border-radius:15px;background:rgba(3,10,7,.92);text-align:center;">
+        <div style="color:var(--green);font-family:Orbitron,sans-serif;font-size:14px;letter-spacing:1.5px;margin-bottom:10px;">📸 FOLLOW ME ON INSTAGRAM</div>
+        <div style="color:#eafff2;font-size:20px;font-weight:700;margin-bottom:8px;">@its_sonu_0034</div>
+        <div style="color:var(--muted);font-size:13px;margin-bottom:14px;">Follow for updates, projects & more.</div>
+        <a href="https://www.instagram.com/its_sonu_0034/" target="_blank" rel="noopener noreferrer" style="display:inline-block;border:1px solid var(--green);background:rgba(0,255,136,.08);color:var(--green);padding:11px 20px;border-radius:9px;text-decoration:none;font-family:Orbitron,sans-serif;font-weight:700;letter-spacing:1px;">FOLLOW ON INSTAGRAM</a>
     </section>
 
     <section class="tools">
@@ -717,7 +886,7 @@ footer b {
 </main>
 
 <footer>
-    mr_error_32 © 2026 — <b>Privacy First</b>
+    mr_error_32 © 2026 — <b>Privacy First • Defensive Technology</b>
 </footer>
 
 <script>
@@ -796,6 +965,27 @@ window.addEventListener("resize", () => {
 
 
 /* ============================
+   PREMIUM RESULT STATE
+============================ */
+
+function setPremiumViewState(showDetails) {
+
+    document.querySelectorAll(".premium-badge").forEach((badge) => {
+
+        if (showDetails) {
+            badge.textContent = "VIEW YOUR DETAILS";
+            badge.classList.add("view-details");
+        } else {
+            badge.textContent = "🔒 PREMIUM";
+            badge.classList.remove("view-details");
+        }
+
+    });
+
+}
+
+
+/* ============================
    PHONE SCANNER
 ============================ */
 
@@ -832,6 +1022,9 @@ function scanNumber() {
     scanButton.disabled = true;
     scanButton.textContent = "SCANNING...";
 
+    // Show the normal premium labels while a new scan is running.
+    setPremiumViewState(false);
+
     const terminal =
         document.getElementById("terminal");
 
@@ -842,7 +1035,7 @@ function scanNumber() {
         </div>
 
         <div class="terminal-line">
-            [INPUT] ${escapeHTML(input)}
+            [INPUT] ${escapeHTML(maskPhoneNumber(input))}
         </div>
 
     `;
@@ -922,7 +1115,7 @@ async function analyzeNumber(input) {
         }
 
         document.getElementById("phone").textContent =
-            phoneNumber.number;
+            maskPhoneNumber(phoneNumber.number);
 
         document.getElementById("country").textContent =
             phoneNumber.country || "Unknown";
@@ -941,6 +1134,10 @@ async function analyzeNumber(input) {
 
         document.getElementById("valid").textContent =
             valid ? "YES" : "NO";
+
+        // Once a valid number has been searched, change every premium
+        // action label from "🔒 PREMIUM" to "VIEW YOUR DETAILS".
+        setPremiumViewState(true);
 
         document.getElementById("valid").className =
             valid ? "ok" : "warning";
@@ -1314,6 +1511,21 @@ function showInvalid() {
 
 }
 
+
+/* ============================
+   PRIVACY MASKING
+============================ */
+
+function maskPhoneNumber(value) {
+    const raw = String(value).trim();
+    const digits = raw.replace(/\D/g, "");
+    if (digits.length <= 6) return "••••••";
+    const last2 = digits.slice(-2);
+    if (digits.startsWith("91") && digits.length >= 10) {
+        return "+91 " + digits.slice(2, 6) + "******" + last2;
+    }
+    return digits.slice(0, 4) + "******" + last2;
+}
 
 /* ============================
    HTML ESCAPE
