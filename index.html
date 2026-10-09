@@ -33,11 +33,9 @@ document.addEventListener('click',function(e){
     const modal=document.getElementById('premiumPlanModal');
     if(e.target===modal) closePremiumPlans();
 });
-
 </script>
 
 <style>
-
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@400;500;600;700&display=swap');
 
 * {
@@ -130,9 +128,7 @@ header {
 }
 
 @keyframes pulse {
-    50% {
-        opacity: .35;
-    }
+    50% { opacity: .35; }
 }
 
 .container {
@@ -144,26 +140,27 @@ header {
 .hero {
     text-align: center;
     margin-bottom: 42px;
+    position: relative;
+    overflow: hidden;
 }
 
-.mask-box {
-    width: 105px;
-    height: 105px;
-    margin: auto;
-    border: 1px solid var(--border);
-    border-radius: 22px;
-    padding: 7px;
-    background: rgba(0,255,136,.04);
-    box-shadow:
-        0 0 30px rgba(0,255,136,.12),
-        inset 0 0 25px rgba(0,255,136,.05);
+.hero::before {
+    content: "";
+    position: absolute;
+    width: 280px;
+    height: 280px;
+    left: 50%;
+    top: 48%;
+    transform: translate(-50%,-50%);
+    border: 1px solid rgba(0,255,136,.14);
+    border-radius: 50%;
+    box-shadow: 0 0 70px rgba(0,255,136,.10), inset 0 0 60px rgba(0,255,136,.05);
+    pointer-events: none;
 }
 
-.mask-box img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 16px;
+.hero h1, .hero p {
+    position: relative;
+    z-index: 1;
 }
 
 .hero h1 {
@@ -172,9 +169,7 @@ header {
     font-size: clamp(30px, 6vw, 62px);
     color: var(--green);
     letter-spacing: 5px;
-    text-shadow:
-        0 0 8px var(--green),
-        0 0 30px rgba(0,255,136,.4);
+    text-shadow: 0 0 8px var(--green), 0 0 30px rgba(0,255,136,.4);
 }
 
 .hero p {
@@ -207,6 +202,7 @@ header {
 
 input {
     flex: 1;
+    min-width: 0;
     background: #020604;
     border: 1px solid rgba(0,255,136,.35);
     color: white;
@@ -366,6 +362,7 @@ button:disabled {
 
 .terminal-line {
     margin: 5px 0;
+    overflow-wrap: anywhere;
 }
 
 .cursor {
@@ -377,9 +374,7 @@ button:disabled {
 }
 
 @keyframes blink {
-    50% {
-        opacity: 0;
-    }
+    50% { opacity: 0; }
 }
 
 footer {
@@ -393,370 +388,495 @@ footer b {
     color: var(--green);
 }
 
-@media(max-width: 750px) {
-
-    .dashboard {
-        grid-template-columns: 1fr;
-    }
-
-    .tools {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .input-row {
-        flex-direction: column;
-    }
-
-    .input-row button {
-        width: 100%;
-    }
-
-    .action-buttons {
-        flex-direction: column;
-    }
-
-    .action-buttons button {
-        width: 100%;
-    }
-
-    header {
-        padding: 15px 4%;
-    }
-
-    .status {
-        font-size: 10px;
-    }
+/* Premium feature cards */
+.premium-banner {
+    margin: 18px 0 14px;
+    padding: 18px 20px;
+    border: 1px solid rgba(212,175,55,.55);
+    border-radius: 14px;
+    background: linear-gradient(135deg,rgba(8,8,8,.98),rgba(20,20,12,.95));
+    box-shadow: 0 0 24px rgba(212,175,55,.10), inset 0 0 20px rgba(0,255,136,.03);
+    text-align: center;
 }
 
-@media(max-width: 430px) {
-
-    .tools {
-        grid-template-columns: 1fr;
-    }
-
-    .scanner,
-    .card {
-        padding: 17px;
-    }
-
-    .hero h1 {
-        letter-spacing: 3px;
-    }
-}
-
-
-/* PREMIUM PROCESS CARDS */
-.premium-banner { margin: 18px 0 14px; padding: 18px 20px; border: 1px solid rgba(212,175,55,.55); border-radius: 14px; background: linear-gradient(135deg,rgba(8,8,8,.98),rgba(20,20,12,.95)); box-shadow: 0 0 24px rgba(212,175,55,.10), inset 0 0 20px rgba(0,255,136,.03); text-align:center; }
 .premium-banner .premium-icon { font-size: 25px; }
-.premium-banner strong { display:block; margin-top:5px; color:#d4af37; letter-spacing:2px; font-size:16px; }
-.premium-banner span { display:block; margin-top:5px; color:#a9b5ad; font-size:13px; }
-.premium-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
-.premium-item { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:13px 14px; border:1px solid rgba(212,175,55,.28); border-radius:10px; background:linear-gradient(135deg,rgba(0,255,136,.035),rgba(212,175,55,.045)); }
-.premium-item .name { color:#eafff2; }
-.premium-badge { white-space:nowrap; color:#d4af37; font-size:10px; font-weight:700; letter-spacing:1px; border:1px solid rgba(212,175,55,.45); border-radius:999px; padding:5px 8px; transition:.25s ease; }
-.premium-badge.view-details { color:var(--green); border-color:rgba(0,255,136,.45); background:rgba(0,255,136,.05); box-shadow:0 0 12px rgba(0,255,136,.08); }
-@media(max-width:600px){.premium-grid{grid-template-columns:1fr;}}
 
-
-/* PHOTO-FREE CYBER HERO */
-.hero { position: relative; overflow: hidden; }
-.hero::before {
-    content: ""; position: absolute; width: 280px; height: 280px;
-    left: 50%; top: 48%; transform: translate(-50%,-50%);
-    border: 1px solid rgba(0,255,136,.14); border-radius: 50%;
-    box-shadow: 0 0 70px rgba(0,255,136,.10), inset 0 0 60px rgba(0,255,136,.05);
-    pointer-events:none;
+.premium-banner strong {
+    display: block;
+    margin-top: 5px;
+    color: #d4af37;
+    letter-spacing: 2px;
+    font-size: 16px;
 }
-.hero h1, .hero p { position: relative; z-index: 1; }
 
-        .service-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:13px 15px;margin:9px 0;border:1px solid rgba(0,255,136,.13);border-radius:11px;background:rgba(0,255,136,.025);transition:.2s ease;}
-        .service-row:hover{border-color:rgba(0,255,136,.38);background:rgba(0,255,136,.05);transform:translateY(-1px);}
-        .service-name{display:flex;align-items:center;gap:12px;color:#eafff2;font-weight:650;}
-        .service-logo{width:34px;height:34px;display:grid;place-items:center;flex:0 0 34px;border-radius:9px;background:#111;border:1px solid rgba(255,255,255,.14);overflow:hidden;box-shadow:0 0 12px rgba(0,255,136,.08);}
-        .service-logo img{width:22px;height:22px;display:block;}
-        .service-logo.whatsapp{background:#25D366;}
-        .service-logo.telegram{background:#26A5E4;}
-        .service-logo.instagram{background:linear-gradient(135deg,#F58529,#DD2A7B,#8134AF,#515BD4);}
-        .service-logo.facebook{background:#1877F2;}
-        .service-logo.gmail{background:#fff;}
-        .service-logo.snapchat{background:#FFFC00;}
-
-
-/* PREMIUM BOX ANIMATION — shared by Online Services + Privacy Safe Data */
-.premium-animated{
-    position:relative;
-    overflow:hidden;
-    border-color:rgba(0,255,136,.30);
-    animation:premiumBoxGlow 2.8s ease-in-out infinite;
+.premium-banner span {
+    display: block;
+    margin-top: 5px;
+    color: #a9b5ad;
+    font-size: 13px;
 }
-.premium-animated::before{
-    content:"";
-    position:absolute;
-    inset:0;
-    border-radius:15px;
-    pointer-events:none;
-    box-shadow:inset 0 0 28px rgba(0,255,136,.045);
+
+.premium-grid {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 10px;
 }
-@keyframes premiumBoxGlow{
-    0%,100%{box-shadow:0 0 18px rgba(0,255,136,.05), inset 0 0 22px rgba(0,255,136,.025);}
-    50%{box-shadow:0 0 34px rgba(0,255,136,.18), inset 0 0 30px rgba(0,255,136,.06);}
+
+.premium-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 13px 14px;
+    border: 1px solid rgba(212,175,55,.28);
+    border-radius: 10px;
+    background: linear-gradient(135deg,rgba(0,255,136,.035),rgba(212,175,55,.045));
 }
-.privacy-label{display:flex;align-items:center;gap:10px;color:var(--muted);}
-.privacy-logo{width:30px;height:30px;display:grid;place-items:center;flex:0 0 30px;border:1px solid rgba(0,255,136,.24);border-radius:8px;background:rgba(0,255,136,.06);color:var(--green);font-size:17px;box-shadow:0 0 12px rgba(0,255,136,.07);}
-.premium-animated .info{position:relative;z-index:1;}
 
+.premium-item .name { color: #eafff2; }
 
-/* PREMIUM PLAN SELECTION */
-.premium-clickable{cursor:pointer;}
-.premium-clickable:hover{border-color:rgba(212,175,55,.65);box-shadow:0 0 18px rgba(212,175,55,.10);}
-.premium-plan-modal{display:none;position:fixed;inset:0;z-index:100;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.78);backdrop-filter:blur(8px);}
-.premium-plan-modal.open{display:flex;}
-.premium-plan-box{width:min(520px,100%);padding:24px;border:1px solid rgba(212,175,55,.45);border-radius:16px;background:linear-gradient(145deg,#07100b,#11130d);box-shadow:0 0 45px rgba(0,255,136,.12);}
-.premium-plan-title{font-family:Orbitron,sans-serif;color:#d4af37;text-align:center;letter-spacing:2px;font-size:16px;}
-.premium-plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px;}
-.premium-plan{padding:15px 10px;border:1px solid rgba(212,175,55,.32);border-radius:11px;background:rgba(212,175,55,.04);text-align:center;cursor:pointer;transition:.25s ease;}
-.premium-plan:hover{transform:translateY(-2px);border-color:#d4af37;box-shadow:0 0 20px rgba(212,175,55,.12);}
-.premium-plan strong{display:block;color:#eafff2;font-family:Orbitron,sans-serif;font-size:12px;}
-.premium-plan span{display:block;margin-top:7px;color:#d4af37;font-weight:800;font-size:18px;}
-.premium-modal-close{display:block;width:100%;margin-top:14px;padding:10px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.04);color:#a9b5ad;border-radius:9px;cursor:pointer;}
-.premium-instagram-contact{display:none;margin-top:16px;padding:17px;border:1px solid rgba(0,255,136,.28);border-radius:12px;background:rgba(0,255,136,.035);box-shadow:0 0 24px rgba(0,255,136,.07);text-align:center;}
-.premium-instagram-contact.show{display:block;animation:premiumContactGlow 2.2s ease-in-out infinite;}
-.premium-instagram-title{font-family:Orbitron,sans-serif;color:var(--green);font-size:12px;letter-spacing:1.5px;}
-.premium-instagram-id{margin-top:7px;color:#eafff2;font-size:21px;font-weight:800;letter-spacing:.5px;}
-.premium-instagram-text{margin:7px 0 12px;color:var(--muted);font-size:13px;}
-.premium-instagram-btn{display:inline-block;padding:10px 16px;border:1px solid var(--green);border-radius:8px;background:rgba(0,255,136,.08);color:var(--green);text-decoration:none;font-family:Orbitron,sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;}
-@keyframes premiumContactGlow{0%,100%{box-shadow:0 0 20px rgba(0,255,136,.05)}50%{box-shadow:0 0 30px rgba(0,255,136,.16)}}
-@media(max-width:600px){.premium-plan-grid{grid-template-columns:1fr;}}
+.premium-badge {
+    white-space: nowrap;
+    color: #d4af37;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    border: 1px solid rgba(212,175,55,.45);
+    border-radius: 999px;
+    padding: 5px 8px;
+    transition: .25s ease;
+}
 
+.premium-badge.view-details {
+    color: var(--green);
+    border-color: rgba(0,255,136,.45);
+    background: rgba(0,255,136,.05);
+    box-shadow: 0 0 12px rgba(0,255,136,.08);
+}
+
+.premium-animated {
+    position: relative;
+    overflow: hidden;
+    border-color: rgba(0,255,136,.30);
+    animation: premiumBoxGlow 2.8s ease-in-out infinite;
+}
+
+.premium-animated::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 15px;
+    pointer-events: none;
+    box-shadow: inset 0 0 28px rgba(0,255,136,.045);
+}
+
+@keyframes premiumBoxGlow {
+    0%,100% { box-shadow: 0 0 18px rgba(0,255,136,.05), inset 0 0 22px rgba(0,255,136,.025); }
+    50% { box-shadow: 0 0 34px rgba(0,255,136,.18), inset 0 0 30px rgba(0,255,136,.06); }
+}
+
+.privacy-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--muted);
+}
+
+.privacy-logo {
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-items: center;
+    flex: 0 0 30px;
+    border: 1px solid rgba(0,255,136,.24);
+    border-radius: 8px;
+    background: rgba(0,255,136,.06);
+    color: var(--green);
+    font-size: 17px;
+    box-shadow: 0 0 12px rgba(0,255,136,.07);
+}
+
+.premium-animated .info {
+    position: relative;
+    z-index: 1;
+}
+
+.premium-clickable { cursor: pointer; }
+
+.premium-clickable:hover {
+    border-color: rgba(212,175,55,.65);
+    box-shadow: 0 0 18px rgba(212,175,55,.10);
+}
+
+.premium-plan-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(0,0,0,.78);
+    backdrop-filter: blur(8px);
+}
+
+.premium-plan-modal.open { display: flex; }
+
+.premium-plan-box {
+    width: min(520px,100%);
+    padding: 24px;
+    border: 1px solid rgba(212,175,55,.45);
+    border-radius: 16px;
+    background: linear-gradient(145deg,#07100b,#11130d);
+    box-shadow: 0 0 45px rgba(0,255,136,.12);
+}
+
+.premium-plan-title {
+    font-family: Orbitron,sans-serif;
+    color: #d4af37;
+    text-align: center;
+    letter-spacing: 2px;
+    font-size: 16px;
+}
+
+.premium-plan-grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.premium-plan {
+    padding: 15px 10px;
+    border: 1px solid rgba(212,175,55,.32);
+    border-radius: 11px;
+    background: rgba(212,175,55,.04);
+    text-align: center;
+    cursor: pointer;
+    transition: .25s ease;
+}
+
+.premium-plan:hover {
+    transform: translateY(-2px);
+    border-color: #d4af37;
+    box-shadow: 0 0 20px rgba(212,175,55,.12);
+}
+
+.premium-plan strong {
+    display: block;
+    color: #eafff2;
+    font-family: Orbitron,sans-serif;
+    font-size: 12px;
+}
+
+.premium-plan span {
+    display: block;
+    margin-top: 7px;
+    color: #d4af37;
+    font-weight: 800;
+    font-size: 18px;
+}
+
+.premium-modal-close {
+    display: block;
+    width: 100%;
+    margin-top: 14px;
+    padding: 10px;
+    border: 1px solid rgba(255,255,255,.15);
+    background: rgba(255,255,255,.04);
+    color: #a9b5ad;
+    border-radius: 9px;
+    cursor: pointer;
+}
+
+.premium-instagram-contact {
+    display: none;
+    margin-top: 16px;
+    padding: 17px;
+    border: 1px solid rgba(0,255,136,.28);
+    border-radius: 12px;
+    background: rgba(0,255,136,.035);
+    box-shadow: 0 0 24px rgba(0,255,136,.07);
+    text-align: center;
+}
+
+.premium-instagram-contact.show {
+    display: block;
+    animation: premiumContactGlow 2.2s ease-in-out infinite;
+}
+
+.premium-instagram-title {
+    font-family: Orbitron,sans-serif;
+    color: var(--green);
+    font-size: 12px;
+    letter-spacing: 1.5px;
+}
+
+.premium-instagram-id {
+    margin-top: 7px;
+    color: #eafff2;
+    font-size: 21px;
+    font-weight: 800;
+    letter-spacing: .5px;
+}
+
+.premium-instagram-text {
+    margin: 7px 0 12px;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.premium-instagram-btn {
+    display: inline-block;
+    padding: 10px 16px;
+    border: 1px solid var(--green);
+    border-radius: 8px;
+    background: rgba(0,255,136,.08);
+    color: var(--green);
+    text-decoration: none;
+    font-family: Orbitron,sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+@keyframes premiumContactGlow {
+    0%,100% { box-shadow: 0 0 20px rgba(0,255,136,.05); }
+    50% { box-shadow: 0 0 30px rgba(0,255,136,.16); }
+}
+
+/* Online service icons */
+.service-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 13px 15px;
+    margin: 9px 0;
+    border: 1px solid rgba(0,255,136,.13);
+    border-radius: 11px;
+    background: rgba(0,255,136,.025);
+    transition: .2s ease;
+}
+
+.service-row:hover {
+    border-color: rgba(0,255,136,.38);
+    background: rgba(0,255,136,.05);
+    transform: translateY(-1px);
+}
+
+.service-name {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #eafff2;
+    font-weight: 650;
+}
+
+.service-logo {
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    flex: 0 0 34px;
+    border-radius: 9px;
+    background: #111;
+    border: 1px solid rgba(255,255,255,.14);
+    overflow: hidden;
+    box-shadow: 0 0 12px rgba(0,255,136,.08);
+}
+
+.service-logo img {
+    width: 22px;
+    height: 22px;
+    display: block;
+}
+
+.service-logo.whatsapp { background: #25D366; }
+.service-logo.telegram { background: #26A5E4; }
+.service-logo.instagram { background: linear-gradient(135deg,#F58529,#DD2A7B,#8134AF,#515BD4); }
+.service-logo.facebook { background: #1877F2; }
+.service-logo.gmail { background: #fff; }
+.service-logo.snapchat { background: #FFFC00; }
+
+@media(max-width:750px) {
+    .dashboard { grid-template-columns: 1fr; }
+    .tools { grid-template-columns: 1fr 1fr; }
+    .input-row { flex-direction: column; }
+    .input-row button { width: 100%; }
+    .action-buttons { flex-direction: column; }
+    .action-buttons button { width: 100%; }
+    header { padding: 15px 4%; }
+    .status { font-size: 10px; }
+}
+
+@media(max-width:600px) {
+    .premium-grid { grid-template-columns: 1fr; }
+    .premium-plan-grid { grid-template-columns: 1fr; }
+}
+
+@media(max-width:430px) {
+    .tools { grid-template-columns: 1fr; }
+    .scanner, .card { padding: 17px; }
+    .hero h1 { letter-spacing: 3px; }
+}
 </style>
 </head>
 
 <body>
 
 <canvas id="matrix"></canvas>
-
 <div class="scanlines"></div>
 
 <header>
-
-    <div class="logo">
-        MR ERROR
-    </div>
-
+    <div class="logo">MR ERROR</div>
     <div class="status">
         <span class="status-dot"></span>
         SYSTEM ONLINE
     </div>
-
 </header>
 
 <main class="container">
 
     <section class="hero">
-
         <h1>MR ERROR</h1>
-
         <p>PHONE INFORMATION CHECKER</p>
-
     </section>
 
     <section class="scanner">
-
-        <div class="section-title">
-            // PHONE NUMBER SCANNER
-        </div>
+        <div class="section-title">// PHONE NUMBER SCANNER</div>
 
         <div class="input-row">
-
             <input
                 id="phoneInput"
                 type="tel"
-                placeholder="+9198*****786"
+                placeholder="+919876543210"
                 autocomplete="off"
+                aria-label="Phone number in international format"
             >
+            <button id="scanButton" onclick="scanNumber()">SCAN</button>
+        </div>
 
-            <button
-                id="scanButton"
-                onclick="scanNumber()">
-                SCAN
-            </button>
-
+        <div class="scan-text">
+            Enter the full international number, including the country calling code.
+            Example: +919876543210
         </div>
 
         <div class="action-buttons">
-
-            <button
-                type="button"
-                onclick="copyResults()">
-                📋 COPY RESULTS
-            </button>
-
-            <button
-                type="button"
-                onclick="clearResults()">
-                🧹 CLEAR
-            </button>
-
+            <button type="button" onclick="copyResults()">📋 COPY RESULTS</button>
+            <button type="button" onclick="clearResults()">🧹 CLEAR</button>
         </div>
 
-        <div
-            class="progress-area"
-            id="progressArea">
-
+        <div class="progress-area" id="progressArea">
             <div class="progress-bar">
-
-                <div
-                    class="progress-fill"
-                    id="progressFill">
-                </div>
-
+                <div class="progress-fill" id="progressFill"></div>
             </div>
-
-            <div
-                class="scan-text"
-                id="scanText">
-
-                Initializing scanner...
-
-            </div>
-
+            <div class="scan-text" id="scanText">Initializing scanner...</div>
         </div>
-
     </section>
 
     <section class="dashboard">
 
         <div class="card">
-
             <h2>01 // PHONE INFORMATION</h2>
 
-            <div class="info">
-                <span>Phone Number</span>
-                <span id="phone">—</span>
-            </div>
-
-            <div class="info">
-                <span>Country</span>
-                <span id="country">—</span>
-            </div>
-
-            <div class="info">
-                <span>Country Code</span>
-                <span id="countryCode">—</span>
-            </div>
-
-            <div class="info">
-                <span>Calling Code</span>
-                <span id="callingCode">—</span>
-            </div>
-
-            <div class="info">
-                <span>Number Type</span>
-                <span id="numberType">—</span>
-            </div>
-
-            <div class="info">
-                <span>Valid</span>
-                <span id="valid">—</span>
-            </div>
-
+            <div class="info"><span>Phone Number</span><span id="phone">—</span></div>
+            <div class="info"><span>Country</span><span id="country">—</span></div>
+            <div class="info"><span>Country Code</span><span id="countryCode">—</span></div>
+            <div class="info"><span>Calling Code</span><span id="callingCode">—</span></div>
+            <div class="info"><span>Number Type</span><span id="numberType">—</span></div>
+            <div class="info"><span>Valid</span><span id="valid">—</span></div>
         </div>
 
         <div class="card">
-
             <h2>02 // NUMBER DETAILS</h2>
 
-            <div class="info">
-                <span>International</span>
-                <span id="international">—</span>
-            </div>
-
-            <div class="info">
-                <span>National</span>
-                <span id="national">—</span>
-            </div>
-
-            <div class="info">
-                <span>Possible</span>
-                <span id="possible">—</span>
-            </div>
-
-            <div class="info">
-                <span>Region</span>
-                <span id="region">—</span>
-            </div>
-
-            <div class="info">
-                <span>Timezone</span>
-                <span id="timezone">Not available</span>
-            </div>
-
-            <div class="info">
-                <span>Carrier</span>
-                <span id="carrier">Not available</span>
-            </div>
-
+            <div class="info"><span>International</span><span id="international">—</span></div>
+            <div class="info"><span>National</span><span id="national">—</span></div>
+            <div class="info"><span>Possible</span><span id="possible">—</span></div>
+            <div class="info"><span>Region</span><span id="region">—</span></div>
+            <div class="info"><span>Timezone</span><span id="timezone">Not available</span></div>
+            <div class="info"><span>Carrier</span><span id="carrier">Not available</span></div>
         </div>
 
         <div class="card premium-animated">
-
-            <div class="premium-banner"><div class="premium-icon">🔒</div><strong>PREMIUM FEATURES</strong><span> </span></div>
-<h2>04 // ONLINE SERVICES — PREMIUM</h2>
-
-            <div style="padding:18px 10px;text-align:center;border:1px solid rgba(0,255,136,.16);border-radius:10px;background:rgba(0,255,136,.025);margin-bottom:14px;">
-                
-                
-                <div style="color:var(--muted);font-size:13px;margin-top:7px;"></div>
-                
+            <div class="premium-banner">
+                <div class="premium-icon">🔒</div>
+                <strong>PREMIUM FEATURES</strong>
+                <span>Additional services</span>
             </div>
 
+            <h2>03 // ONLINE SERVICES</h2>
+
             <div class="service-row premium-clickable" onclick="openPremiumPlans()">
-                <span class="service-name"><span class="service-logo whatsapp"><img src="https://cdn.simpleicons.org/whatsapp/FFFFFF" alt="WhatsApp"></span>WhatsApp</span>
+                <span class="service-name">
+                    <span class="service-logo whatsapp">
+                        <img src="https://cdn.simpleicons.org/whatsapp/FFFFFF" alt="WhatsApp">
+                    </span>
+                    WhatsApp
+                </span>
                 <span class="premium-badge">🔒 PREMIUM</span>
             </div>
 
             <div class="service-row premium-clickable" onclick="openPremiumPlans()">
-                <span class="service-name"><span class="service-logo telegram"><img src="https://cdn.simpleicons.org/telegram/FFFFFF" alt="Telegram"></span>Telegram</span>
+                <span class="service-name">
+                    <span class="service-logo telegram">
+                        <img src="https://cdn.simpleicons.org/telegram/FFFFFF" alt="Telegram">
+                    </span>
+                    Telegram
+                </span>
                 <span class="premium-badge">🔒 PREMIUM</span>
             </div>
 
             <div class="service-row premium-clickable" onclick="openPremiumPlans()">
-                <span class="service-name"><span class="service-logo instagram"><img src="https://cdn.simpleicons.org/instagram/FFFFFF" alt="Instagram"></span>Instagram</span>
+                <span class="service-name">
+                    <span class="service-logo instagram">
+                        <img src="https://cdn.simpleicons.org/instagram/FFFFFF" alt="Instagram">
+                    </span>
+                    Instagram
+                </span>
                 <span class="premium-badge">🔒 PREMIUM</span>
             </div>
 
             <div class="service-row premium-clickable" onclick="openPremiumPlans()">
-                <span class="service-name"><span class="service-logo facebook"><img src="https://cdn.simpleicons.org/facebook/FFFFFF" alt="Facebook"></span>Facebook</span>
+                <span class="service-name">
+                    <span class="service-logo facebook">
+                        <img src="https://cdn.simpleicons.org/facebook/FFFFFF" alt="Facebook">
+                    </span>
+                    Facebook
+                </span>
                 <span class="premium-badge">🔒 PREMIUM</span>
             </div>
 
             <div class="service-row premium-clickable" onclick="openPremiumPlans()">
-                <span class="service-name"><span class="service-logo gmail"><img src="https://cdn.simpleicons.org/gmail/EA4335" alt="Gmail"></span>Gmail</span>
+                <span class="service-name">
+                    <span class="service-logo gmail">
+                        <img src="https://cdn.simpleicons.org/gmail/EA4335" alt="Gmail">
+                    </span>
+                    Gmail
+                </span>
                 <span class="premium-badge">🔒 PREMIUM</span>
             </div>
 
             <div class="service-row premium-clickable" onclick="openPremiumPlans()">
-                <span class="service-name"><span class="service-logo snapchat"><img src="https://cdn.simpleicons.org/snapchat/000000" alt="Snapchat"></span>Snapchat</span>
+                <span class="service-name">
+                    <span class="service-logo snapchat">
+                        <img src="https://cdn.simpleicons.org/snapchat/000000" alt="Snapchat">
+                    </span>
+                    Snapchat
+                </span>
                 <span class="premium-badge">🔒 PREMIUM</span>
             </div>
-
-            <div style="padding:18px 10px 5px;text-align:center;">
-                
-            </div>
-
         </div>
 
         <div class="card premium-animated">
-
-            <div class="premium-banner"><div class="premium-icon">🔒</div><strong>PREMIUM FEATURES</strong><span> </span></div>
-<h2>03 // PRIVACY SAFE DATA — PREMIUM</h2>
-
-            <div style="padding:18px 10px;text-align:center;border:1px solid rgba(0,255,136,.16);border-radius:10px;background:rgba(0,255,136,.025);margin-bottom:14px;">
-                
-                
-                <div style="color:var(--muted);font-size:13px;margin-top:7px;"></div>
-                
+            <div class="premium-banner">
+                <div class="premium-icon">🔒</div>
+                <strong>PREMIUM FEATURES</strong>
+                <span>Privacy-safe information</span>
             </div>
+
+            <h2>04 // PRIVACY SAFE DATA</h2>
 
             <div class="info premium-clickable" onclick="openPremiumPlans()">
                 <span class="privacy-label"><span class="privacy-logo">👤</span>Person Name</span>
@@ -774,113 +894,105 @@ footer b {
             </div>
 
             <div class="info premium-clickable" onclick="openPremiumPlans()">
-                <span>Email Account</span>
+                <span class="privacy-label"><span class="privacy-logo">✉️</span>Email Account</span>
                 <span class="premium-badge">🔒 PREMIUM</span>
             </div>
 
             <div class="info premium-clickable" onclick="openPremiumPlans()">
-                <span>OTP / Password</span>
+                <span class="privacy-label"><span class="privacy-logo">🔐</span>OTP / Password</span>
                 <span class="premium-badge">🔒 PREMIUM</span>
             </div>
 
             <div class="info premium-clickable" onclick="openPremiumPlans()">
-                <span>🪪 Aadhaar Verification</span>
+                <span class="privacy-label"><span class="privacy-logo">🪪</span>Aadhaar Verification</span>
                 <span class="premium-badge">🔒 PREMIUM</span>
             </div>
 
             <div class="info premium-clickable" onclick="openPremiumPlans()">
-                <span>💳 PAN Verification</span>
+                <span class="privacy-label"><span class="privacy-logo">💳</span>PAN Verification</span>
                 <span class="premium-badge">🔒 PREMIUM</span>
             </div>
 
             <div class="info premium-clickable" onclick="openPremiumPlans()">
-                <span>📄 SIM Registration Details</span>
+                <span class="privacy-label"><span class="privacy-logo">📄</span>SIM Registration Details</span>
                 <span class="premium-badge">🔒 PREMIUM</span>
             </div>
-
         </div>
 
     </section>
 
-    
+    <div class="premium-plan-modal" id="premiumPlanModal" aria-hidden="true">
+        <div class="premium-plan-box">
+            <div class="premium-plan-title">💎 SELECT PREMIUM PLAN</div>
 
-<div class="premium-plan-modal" id="premiumPlanModal" aria-hidden="true">
-  <div class="premium-plan-box">
-    <div class="premium-plan-title">💎 SELECT PREMIUM PLAN</div>
-    <div class="premium-plan-grid">
-      <div class="premium-plan" onclick="selectPremiumPlan('Premium','₹199')"><strong>💎 PREMIUM</strong><span>₹199</span></div>
-      <div class="premium-plan" onclick="selectPremiumPlan('Pro','₹499')"><strong>🚀 PRO</strong><span>₹499</span></div>
-      <div class="premium-plan" onclick="selectPremiumPlan('Advanced','₹999')"><strong>⚡ ADVANCED</strong><span>₹999</span></div>
+            <div class="premium-plan-grid">
+                <div class="premium-plan" onclick="selectPremiumPlan('Premium','₹199')">
+                    <strong>💎 PREMIUM</strong><span>₹199</span>
+                </div>
+                <div class="premium-plan" onclick="selectPremiumPlan('Pro','₹499')">
+                    <strong>🚀 PRO</strong><span>₹499</span>
+                </div>
+                <div class="premium-plan" onclick="selectPremiumPlan('Advanced','₹999')">
+                    <strong>⚡ ADVANCED</strong><span>₹999</span>
+                </div>
+            </div>
+
+            <div class="premium-instagram-contact" id="premiumInstagramContact" aria-hidden="true">
+                <div class="premium-instagram-title">📸 CONTACT OWNER</div>
+                <div class="premium-instagram-id">@its_sonu_0034</div>
+                <div class="premium-instagram-text">
+                    Contact the owner on Instagram for questions about the project.
+                </div>
+                <a class="premium-instagram-btn"
+                   href="https://www.instagram.com/its_sonu_0034/"
+                   target="_blank"
+                   rel="noopener noreferrer">OPEN INSTAGRAM</a>
+            </div>
+
+            <button class="premium-modal-close" type="button" onclick="closePremiumPlans()">CLOSE</button>
+        </div>
     </div>
-    <div class="premium-instagram-contact" id="premiumInstagramContact" aria-hidden="true">
-      <div class="premium-instagram-title">📸 CONTACT OWNER</div>
-      <div class="premium-instagram-id">@its_sonu_0034</div>
-      <div class="premium-instagram-text">Contact the owner on Instagram to complete your purchase after selecting a plan.</div>
-      <a class="premium-instagram-btn" href="https://www.instagram.com/its_sonu_0034/" target="_blank" rel="noopener noreferrer">OPEN INSTAGRAM</a>
-    </div>
-    <button class="premium-modal-close" type="button" onclick="closePremiumPlans()">CLOSE</button>
-  </div>
-</div>
 
     <section class="instagram-card" style="margin-top:20px;padding:22px;border:1px solid var(--border);border-radius:15px;background:rgba(3,10,7,.92);text-align:center;">
-        <div style="color:var(--green);font-family:Orbitron,sans-serif;font-size:14px;letter-spacing:1.5px;margin-bottom:10px;">📸 FOLLOW ME ON INSTAGRAM</div>
-        <div style="color:#eafff2;font-size:20px;font-weight:700;margin-bottom:8px;">@its_sonu_0034</div>
-        <div style="color:var(--muted);font-size:13px;margin-bottom:14px;">Follow for updates, projects & more.</div>
-        <a href="https://www.instagram.com/its_sonu_0034/" target="_blank" rel="noopener noreferrer" style="display:inline-block;border:1px solid var(--green);background:rgba(0,255,136,.08);color:var(--green);padding:11px 20px;border-radius:9px;text-decoration:none;font-family:Orbitron,sans-serif;font-weight:700;letter-spacing:1px;">FOLLOW ON INSTAGRAM</a>
+        <div style="display:flex;align-items:center;justify-content:center;gap:9px;color:var(--green);font-family:Orbitron,sans-serif;font-size:14px;letter-spacing:1.5px;margin-bottom:10px;">
+            <img src="https://cdn.simpleicons.org/instagram/FFFFFF"
+                 alt="Instagram logo"
+                 style="width:21px;height:21px;display:block;"
+                 loading="lazy">
+            <span>FOLLOW ME ON INSTAGRAM</span>
+        </div>
+
+        <div style="color:#eafff2;font-size:20px;font-weight:700;margin-bottom:8px;">
+            @its_sonu_0034
+        </div>
+
+        <div style="color:var(--muted);font-size:13px;margin-bottom:14px;">
+            Follow for updates, projects &amp; more.
+        </div>
+
+        <a href="https://www.instagram.com/its_sonu_0034/"
+           target="_blank"
+           rel="noopener noreferrer"
+           style="display:inline-block;border:1px solid var(--green);background:rgba(0,255,136,.08);color:var(--green);padding:11px 20px;border-radius:9px;text-decoration:none;font-family:Orbitron,sans-serif;font-weight:700;letter-spacing:1px;">
+            FOLLOW ON INSTAGRAM
+        </a>
     </section>
 
     <section class="tools">
-
-        <div class="tool">
-            ☎ Number Validation
-        </div>
-
-        <div class="tool">
-            🌍 Region Check
-        </div>
-
-        <div class="tool">
-            📡 Calling Code
-        </div>
-
-        <div class="tool">
-            🔎 Format Check
-        </div>
-
-        <div class="tool">
-            🛡 Privacy Safe
-        </div>
-
-        <div class="tool">
-            ⚡ Live Scanner
-        </div>
-
+        <div class="tool">☎ Number Validation</div>
+        <div class="tool">🌍 Region Check</div>
+        <div class="tool">📡 Calling Code</div>
+        <div class="tool">🔎 Format Check</div>
+        <div class="tool">🛡 Privacy Safe</div>
+        <div class="tool">⚡ Number Scanner</div>
     </section>
 
-    <section
-        class="terminal"
-        id="terminal">
-
-        <div class="terminal-line">
-            [SYSTEM] MR ERROR scanner initialized...
-        </div>
-
-        <div class="terminal-line">
-            [SYSTEM] Waiting for phone number...
-        </div>
-
-        <div class="terminal-line">
-            [INFO] Technical/public metadata only.
-        </div>
-
-        <div class="terminal-line">
-            [FOLLOW] mr_error_32
-        </div>
-
-        <div class="terminal-line">
-            <span class="cursor"></span>
-        </div>
-
+    <section class="terminal" id="terminal">
+        <div class="terminal-line">[SYSTEM] MR ERROR scanner initialized...</div>
+        <div class="terminal-line">[SYSTEM] Waiting for phone number...</div>
+        <div class="terminal-line">[INFO] Technical/public metadata only.</div>
+        <div class="terminal-line">[FOLLOW] mr_error_32</div>
+        <div class="terminal-line"><span class="cursor"></span></div>
     </section>
 
 </main>
@@ -890,11 +1002,7 @@ footer b {
 </footer>
 
 <script>
-
-/* ============================
-   MATRIX EFFECT
-============================ */
-
+/* MATRIX EFFECT */
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
 
@@ -908,45 +1016,19 @@ let columns = Math.floor(width / fontSize);
 let drops = Array(columns).fill(1);
 
 function drawMatrix() {
-
     ctx.fillStyle = "rgba(0, 0, 0, 0.08)";
-
-    ctx.fillRect(
-        0,
-        0,
-        width,
-        height
-    );
+    ctx.fillRect(0, 0, width, height);
 
     ctx.fillStyle = "#00ff88";
     ctx.font = fontSize + "px monospace";
 
-    for (
-        let i = 0;
-        i < drops.length;
-        i++
-    ) {
+    for (let i = 0; i < drops.length; i++) {
+        const char = chars[Math.floor(Math.random() * chars.length)];
+        ctx.fillText(char, i * fontSize, drops[i] * fontSize);
 
-        const char =
-            chars[
-                Math.floor(
-                    Math.random() * chars.length
-                )
-            ];
-
-        ctx.fillText(
-            char,
-            i * fontSize,
-            drops[i] * fontSize
-        );
-
-        if (
-            drops[i] * fontSize > height &&
-            Math.random() > .975
-        ) {
+        if (drops[i] * fontSize > height && Math.random() > .975) {
             drops[i] = 0;
         }
-
         drops[i]++;
     }
 }
@@ -954,24 +1036,15 @@ function drawMatrix() {
 setInterval(drawMatrix, 45);
 
 window.addEventListener("resize", () => {
-
     width = canvas.width = window.innerWidth;
     height = canvas.height = window.innerHeight;
-
     columns = Math.floor(width / fontSize);
     drops = Array(columns).fill(1);
-
 });
 
-
-/* ============================
-   PREMIUM RESULT STATE
-============================ */
-
+/* PREMIUM RESULT STATE */
 function setPremiumViewState(showDetails) {
-
     document.querySelectorAll(".premium-badge").forEach((badge) => {
-
         if (showDetails) {
             badge.textContent = "VIEW YOUR DETAILS";
             badge.classList.add("view-details");
@@ -979,42 +1052,31 @@ function setPremiumViewState(showDetails) {
             badge.textContent = "🔒 PREMIUM";
             badge.classList.remove("view-details");
         }
-
     });
-
 }
 
-
-/* ============================
-   PHONE SCANNER
-============================ */
-
+/* PHONE SCANNER */
 function scanNumber() {
-
-    const input =
-        document
-            .getElementById("phoneInput")
-            .value
-            .trim();
+    const input = document.getElementById("phoneInput").value.trim();
 
     if (!input) {
-
         alert("Please enter a phone number.");
-
         return;
     }
 
-    const progressArea =
-        document.getElementById("progressArea");
+    // Require international format and a country calling code.
+    // Spaces, hyphens, and parentheses are allowed.
+    const normalizedInput = input.replace(/[\s()-]/g, "");
 
-    const progressFill =
-        document.getElementById("progressFill");
+    if (!/^\+[1-9]\d{6,14}$/.test(normalizedInput)) {
+        alert("Country code required. Enter the number in international format, for example: +919876543210");
+        return;
+    }
 
-    const scanText =
-        document.getElementById("scanText");
-
-    const scanButton =
-        document.getElementById("scanButton");
+    const progressArea = document.getElementById("progressArea");
+    const progressFill = document.getElementById("progressFill");
+    const scanText = document.getElementById("scanText");
+    const scanButton = document.getElementById("scanButton");
 
     progressArea.style.display = "block";
     progressFill.style.width = "0%";
@@ -1022,95 +1084,48 @@ function scanNumber() {
     scanButton.disabled = true;
     scanButton.textContent = "SCANNING...";
 
-    // Show the normal premium labels while a new scan is running.
     setPremiumViewState(false);
 
-    const terminal =
-        document.getElementById("terminal");
+    const terminal = document.getElementById("terminal");
 
     terminal.innerHTML = `
-
-        <div class="terminal-line">
-            [SYSTEM] Scanner started...
-        </div>
-
-        <div class="terminal-line">
-            [INPUT] ${escapeHTML(maskPhoneNumber(input))}
-        </div>
-
+        <div class="terminal-line">[SYSTEM] Scanner started...</div>
+        <div class="terminal-line">[INPUT] ${escapeHTML(maskPhoneNumber(normalizedInput))}</div>
     `;
 
     let progress = 0;
 
     const interval = setInterval(() => {
-
         progress += 2;
-
-        progressFill.style.width =
-            progress + "%";
+        progressFill.style.width = progress + "%";
 
         if (progress < 30) {
-
-            scanText.textContent =
-                "Parsing phone number...";
-
-        }
-        else if (progress < 55) {
-
-            scanText.textContent =
-                "Checking number format...";
-
-        }
-        else if (progress < 75) {
-
-            scanText.textContent =
-                "Checking region metadata...";
-
-        }
-        else if (progress < 95) {
-
-            scanText.textContent =
-                "Finalizing results...";
-
-        }
-        else {
-
-            scanText.textContent =
-                "Scan complete.";
-
+            scanText.textContent = "Parsing phone number...";
+        } else if (progress < 55) {
+            scanText.textContent = "Checking number format...";
+        } else if (progress < 75) {
+            scanText.textContent = "Checking region metadata...";
+        } else if (progress < 95) {
+            scanText.textContent = "Finalizing results...";
+        } else {
+            scanText.textContent = "Scan complete.";
         }
 
         if (progress >= 100) {
-
             clearInterval(interval);
-
-            analyzeNumber(input);
-
+            analyzeNumber(normalizedInput);
         }
-
     }, 25);
-
 }
 
-
-/* ============================
-   ANALYZE NUMBER
-============================ */
-
+/* ANALYZE NUMBER */
 async function analyzeNumber(input) {
-
     try {
-
-        const phoneNumber =
-            libphonenumber.parsePhoneNumber(
-                input,
-                "IN"
-            );
+        // No default country is supplied: international calling code is required.
+        const phoneNumber = libphonenumber.parsePhoneNumber(input);
 
         if (!phoneNumber) {
-
             showInvalid();
-
             return;
         }
 
@@ -1129,15 +1144,10 @@ async function analyzeNumber(input) {
         document.getElementById("numberType").textContent =
             phoneNumber.getType() || "Unknown";
 
-        const valid =
-            phoneNumber.isValid();
+        const valid = phoneNumber.isValid();
 
         document.getElementById("valid").textContent =
             valid ? "YES" : "NO";
-
-        // Once a valid number has been searched, change every premium
-        // action label from "🔒 PREMIUM" to "VIEW YOUR DETAILS".
-        setPremiumViewState(true);
 
         document.getElementById("valid").className =
             valid ? "ok" : "warning";
@@ -1154,165 +1164,68 @@ async function analyzeNumber(input) {
         document.getElementById("region").textContent =
             phoneNumber.country || "Unknown";
 
+        /*
+          The API endpoint below must exist on your server.
+          It should return only public/technical phone metadata.
+        */
+        const response = await fetch(
+            "/api/scan?number=" + encodeURIComponent(input)
+        );
 
-        /* NUMVERIFY API */
-
-        const response =
-            await fetch(
-                "/api/scan?number=" +
-                encodeURIComponent(input)
-            );
-
-        const data =
-            await response.json();
+        const data = await response.json();
 
         if (!response.ok) {
-
-            throw new Error(
-                data.error ||
-                "API request failed"
-            );
+            throw new Error(data.error || "API request failed");
         }
 
-
-        /* CARRIER */
-
         document.getElementById("carrier").textContent =
-            data.carrier ||
-            "Not available";
+            data.carrier || "Not available";
 
-
-        /* TIMEZONE */
-
-        let timezone =
-            data.timezone;
+        let timezone = data.timezone;
 
         if (Array.isArray(timezone)) {
-
-            timezone =
-                timezone.join(", ");
-
+            timezone = timezone.join(", ");
         }
 
         document.getElementById("timezone").textContent =
-            timezone ||
-            "Not available";
-
-
-        /* LOCATION */
+            timezone || "Not available";
 
         if (data.location) {
-
             document.getElementById("region").textContent =
                 data.location;
-
         }
 
-
-        /* TERMINAL */
-
-        const terminal =
-            document.getElementById("terminal");
+        const terminal = document.getElementById("terminal");
 
         terminal.innerHTML += `
-
-            <div class="terminal-line">
-                [OK] Number parsed successfully.
-            </div>
-
-            <div class="terminal-line">
-                [OK] Country:
-                ${escapeHTML(
-                    data.country_code ||
-                    phoneNumber.country ||
-                    "Unknown"
-                )}
-            </div>
-
-            <div class="terminal-line">
-                [OK] Calling Code:
-                +${escapeHTML(
-                    phoneNumber.countryCallingCode
-                )}
-            </div>
-
-            <div class="terminal-line">
-                [OK] Valid:
-                ${data.valid ? "YES" : "NO"}
-            </div>
-
-            <div class="terminal-line">
-                [API] Carrier:
-                ${escapeHTML(
-                    data.carrier ||
-                    "Not available"
-                )}
-            </div>
-
-            <div class="terminal-line">
-                [API] Location:
-                ${escapeHTML(
-                    data.location ||
-                    "Not available"
-                )}
-            </div>
-
-            <div class="terminal-line">
-                [INFO] Private identity data is not accessed.
-            </div>
-
-            <div class="terminal-line">
-                root@mr-error:~$
-                <span class="cursor"></span>
-            </div>
-
+            <div class="terminal-line">[OK] Number parsed successfully.</div>
+            <div class="terminal-line">[OK] Country: ${escapeHTML(data.country_code || phoneNumber.country || "Unknown")}</div>
+            <div class="terminal-line">[OK] Calling Code: +${escapeHTML(phoneNumber.countryCallingCode)}</div>
+            <div class="terminal-line">[OK] Valid: ${data.valid ? "YES" : "NO"}</div>
+            <div class="terminal-line">[API] Carrier: ${escapeHTML(data.carrier || "Not available")}</div>
+            <div class="terminal-line">[API] Location: ${escapeHTML(data.location || "Not available")}</div>
+            <div class="terminal-line">[INFO] Private identity data is not accessed.</div>
+            <div class="terminal-line">root@mr-error:~$ <span class="cursor"></span></div>
         `;
-
-    }
-
-    catch (error) {
-
+    } catch (error) {
         console.error(error);
-
         showInvalid();
 
         document.getElementById("terminal").innerHTML += `
-
-            <div class="terminal-line">
-                [ERROR]
-                ${escapeHTML(error.message)}
-            </div>
-
-            <div class="terminal-line">
-                root@mr-error:~$
-                <span class="cursor"></span>
-            </div>
-
+            <div class="terminal-line">[ERROR] ${escapeHTML(error.message)}</div>
+            <div class="terminal-line">Check that the API backend is running and configured.</div>
+            <div class="terminal-line">root@mr-error:~$ <span class="cursor"></span></div>
         `;
-
-    }
-
-    finally {
-
-        const scanButton =
-            document.getElementById("scanButton");
-
+    } finally {
+        const scanButton = document.getElementById("scanButton");
         scanButton.disabled = false;
         scanButton.textContent = "SCAN";
-
     }
-
 }
 
-
-/* ============================
-   COPY RESULTS
-============================ */
-
+/* COPY RESULTS */
 function copyResults() {
-
     const results = `
-
 MR ERROR — PHONE INFORMATION
 
 Phone Number: ${document.getElementById("phone").textContent}
@@ -1333,46 +1246,19 @@ Privacy:
 Private identity data is not accessed.
 
 MR ERROR © 2026
-
     `.trim();
 
-
-    if (
-        navigator.clipboard &&
-        window.isSecureContext
-    ) {
-
-        navigator.clipboard
-            .writeText(results)
-            .then(() => {
-
-                alert("Results copied!");
-
-            })
-            .catch(() => {
-
-                alert("Copy failed.");
-
-            });
-
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(results)
+            .then(() => alert("Results copied!"))
+            .catch(() => alert("Copy failed."));
+    } else {
+        alert("Copy is not supported in this browser.");
     }
-    else {
-
-        alert(
-            "Copy is not supported in this browser."
-        );
-
-    }
-
 }
 
-
-/* ============================
-   CLEAR RESULTS
-============================ */
-
+/* CLEAR RESULTS */
 function clearResults() {
-
     const fields = [
         "phone",
         "country",
@@ -1386,182 +1272,85 @@ function clearResults() {
     ];
 
     fields.forEach(id => {
-
-        document.getElementById(id).textContent =
-            "—";
-
+        document.getElementById(id).textContent = "—";
     });
 
+    document.getElementById("valid").textContent = "—";
+    document.getElementById("valid").className = "";
+    document.getElementById("timezone").textContent = "Not available";
+    document.getElementById("carrier").textContent = "Not available";
+    document.getElementById("phoneInput").value = "";
+    document.getElementById("progressArea").style.display = "none";
+    document.getElementById("progressFill").style.width = "0%";
+    document.getElementById("scanText").textContent = "Initializing scanner...";
+    document.getElementById("scanButton").disabled = false;
+    document.getElementById("scanButton").textContent = "SCAN";
 
-    document.getElementById("valid").textContent =
-        "—";
-
-    document.getElementById("valid").className =
-        "";
-
-    document.getElementById("timezone").textContent =
-        "Not available";
-
-    document.getElementById("carrier").textContent =
-        "Not available";
-
-    document.getElementById("phoneInput").value =
-        "";
-
-    document.getElementById("progressArea").style.display =
-        "none";
-
-    document.getElementById("progressFill").style.width =
-        "0%";
-
-    document.getElementById("scanText").textContent =
-        "Initializing scanner...";
-
-    document.getElementById("scanButton").disabled =
-        false;
-
-    document.getElementById("scanButton").textContent =
-        "SCAN";
-
+    setPremiumViewState(false);
 
     document.getElementById("terminal").innerHTML = `
-
-        <div class="terminal-line">
-            [SYSTEM] Scanner cleared...
-        </div>
-
-        <div class="terminal-line">
-            [SYSTEM] Waiting for phone number...
-        </div>
-
-        <div class="terminal-line">
-            [INFO] Technical/public metadata only.
-        </div>
-
-        <div class="terminal-line">
-            [FOLLOW] mr_error_32
-        </div>
-
-        <div class="terminal-line">
-            <span class="cursor"></span>
-        </div>
-
+        <div class="terminal-line">[SYSTEM] Scanner cleared...</div>
+        <div class="terminal-line">[SYSTEM] Waiting for phone number...</div>
+        <div class="terminal-line">[INFO] Technical/public metadata only.</div>
+        <div class="terminal-line">[FOLLOW] mr_error_32</div>
+        <div class="terminal-line"><span class="cursor"></span></div>
     `;
-
 }
 
-
-/* ============================
-   INVALID NUMBER
-============================ */
-
+/* INVALID NUMBER */
 function showInvalid() {
-
-    document.getElementById("phone").textContent =
-        "Invalid";
-
-    document.getElementById("country").textContent =
-        "Unknown";
-
-    document.getElementById("countryCode").textContent =
-        "—";
-
-    document.getElementById("callingCode").textContent =
-        "—";
-
-    document.getElementById("numberType").textContent =
-        "Unknown";
-
-    document.getElementById("valid").textContent =
-        "NO";
-
-    document.getElementById("valid").className =
-        "warning";
-
-    document.getElementById("international").textContent =
-        "—";
-
-    document.getElementById("national").textContent =
-        "—";
-
-    document.getElementById("possible").textContent =
-        "NO";
-
-    document.getElementById("region").textContent =
-        "Unknown";
-
-    document.getElementById("carrier").textContent =
-        "Not available";
-
-    document.getElementById("timezone").textContent =
-        "Not available";
+    document.getElementById("phone").textContent = "Invalid";
+    document.getElementById("country").textContent = "Unknown";
+    document.getElementById("countryCode").textContent = "—";
+    document.getElementById("callingCode").textContent = "—";
+    document.getElementById("numberType").textContent = "Unknown";
+    document.getElementById("valid").textContent = "NO";
+    document.getElementById("valid").className = "warning";
+    document.getElementById("international").textContent = "—";
+    document.getElementById("national").textContent = "—";
+    document.getElementById("possible").textContent = "NO";
+    document.getElementById("region").textContent = "Unknown";
+    document.getElementById("carrier").textContent = "Not available";
+    document.getElementById("timezone").textContent = "Not available";
 
     document.getElementById("terminal").innerHTML += `
-
-        <div class="terminal-line">
-            [ERROR] Invalid or unsupported number.
-        </div>
-
-        <div class="terminal-line">
-            root@mr-error:~$
-            <span class="cursor"></span>
-        </div>
-
+        <div class="terminal-line">[ERROR] Invalid or unsupported number.</div>
+        <div class="terminal-line">root@mr-error:~$ <span class="cursor"></span></div>
     `;
-
 }
 
-
-/* ============================
-   PRIVACY MASKING
-============================ */
-
+/* PRIVACY MASKING */
 function maskPhoneNumber(value) {
     const raw = String(value).trim();
     const digits = raw.replace(/\D/g, "");
+
     if (digits.length <= 6) return "••••••";
+
     const last2 = digits.slice(-2);
+
     if (digits.startsWith("91") && digits.length >= 10) {
         return "+91 " + digits.slice(2, 6) + "******" + last2;
     }
-    return digits.slice(0, 4) + "******" + last2;
+
+    return "+" + digits.slice(0, 3) + " " + "******" + last2;
 }
 
-/* ============================
-   HTML ESCAPE
-============================ */
-
+/* HTML ESCAPE */
 function escapeHTML(value) {
-
     return String(value)
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
-
 }
 
-
-/* ============================
-   ENTER KEY
-============================ */
-
-document
-    .getElementById("phoneInput")
-    .addEventListener(
-        "keydown",
-        function(event) {
-
-            if (event.key === "Enter") {
-
-                scanNumber();
-
-            }
-
-        }
-    );
-
+/* ENTER KEY */
+document.getElementById("phoneInput").addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        scanNumber();
+    }
+});
 </script>
 
 </body>
