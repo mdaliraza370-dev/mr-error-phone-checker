@@ -10,31 +10,37 @@
 
 <script>
 /* PREMIUM PLAN FLOW */
+
 function openPremiumPlans(){
     const modal=document.getElementById('premiumPlanModal');
+    const contact=document.getElementById('premiumInstagramContact');
     if(!modal)return;
+
+    if(contact){
+        contact.classList.add('show');
+        contact.setAttribute('aria-hidden','false');
+    }
+
     modal.classList.add('open');
     modal.setAttribute('aria-hidden','false');
 }
+
 function closePremiumPlans(){
     const modal=document.getElementById('premiumPlanModal');
     if(!modal)return;
     modal.classList.remove('open');
     modal.setAttribute('aria-hidden','true');
 }
+
 function selectPremiumPlan(name,price){
-    const contact=document.getElementById('premiumInstagramContact');
-    if(contact){
-        contact.classList.add('show');
-        contact.setAttribute('aria-hidden','false');
-    }
+    // Contact option is already visible.
 }
+
 document.addEventListener('click',function(e){
     const modal=document.getElementById('premiumPlanModal');
     if(e.target===modal) closePremiumPlans();
 });
 </script>
-
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@400;500;600;700&display=swap');
 
