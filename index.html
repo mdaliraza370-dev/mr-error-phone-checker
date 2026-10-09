@@ -1181,14 +1181,23 @@ async function analyzeNumber(input) {
         document.getElementById("carrier").textContent =
             data.carrier || "Not available";
 
-        let timezone = data.timezone;
+        let timezone = data.timezone || data.timezones;
 
-        if (Array.isArray(timezone)) {
-            timezone = timezone.join(", ");
-        }
+// India ka standard timezone fallback
+if (
+    (!timezone ||
+        (Array.isArray(timezone) && timezone.length === 0)) &&
+    phoneNumber.country === "IN"
+) {
+    timezone = "Asia/Kolkata (IST, UTC+05:30)";
+}
 
-        document.getElementById("timezone").textContent =
-            timezone || "Not available";
+if (Array.isArray(timezone)) {
+    timezone = timezone.join(", ");
+}
+
+document.getElementById("timezone").textContent =
+    timezone || "Not available";
 
         if (data.location) {
             document.getElementById("region").textContent =
