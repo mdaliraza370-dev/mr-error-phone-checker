@@ -1124,19 +1124,29 @@ function scanNumber() {
     }, 25);
 }
 
-/* ANALYZE NUMBER */
+
+/* ANALYZE NUMBER — FIXED VERSION */
 async function analyzeNumber(input) {
+    const scanButton = document.getElementById("scanButton");
+    const terminal = document.getElementById("terminal");
+
     try {
-        // No default country is supplied: international calling code is required.
         const phoneNumber = libphonenumber.parsePhoneNumber(input);
 
-       if (!phoneNumber) {
-    showInvalid();
-    setPremiumViewState(false);
-    return;
-}
+        if (!phoneNumber || !phoneNumber.isValid()) {
+            setPremiumViewState(false);
+            showInvalid();
 
-setPremiumViewState(true);
+            terminal.innerHTML += `
+                <div class="terminal-line">[ERROR] Number format is invalid.</div>
+                <div class="terminal-line">[INFO] Use international format, e.g. +919876543210.</div>
+            `;
+            return;
+        }
+
+        // Basic phone-number metadata only
+        setPremiumViewState(false);
+
         document.getElementById("phone").textContent =
             maskPhoneNumber(phoneNumber.number);
 
@@ -1152,13 +1162,8 @@ setPremiumViewState(true);
         document.getElementById("numberType").textContent =
             phoneNumber.getType() || "Unknown";
 
-        const valid = phoneNumber.isValid();
-
-        document.getElementById("valid").textContent =
-            valid ? "YES" : "NO";
-
-        document.getElementById("valid").className =
-            valid ? "ok" : "warning";
+        document.getElementById("valid").textContent = "YES";
+        document.getElementById("valid").className = "ok";
 
         document.getElementById("international").textContent =
             phoneNumber.formatInternational();
@@ -1172,74 +1177,44 @@ setPremiumViewState(true);
         document.getElementById("region").textContent =
             phoneNumber.country || "Unknown";
 
-        /*
-          The API endpoint below must exist on your server.
-          It should return only public/technical phone metadata.
-        */
-        const response = await fetch(
-            "/api/scan?number=" + encodeURIComponent(input)
-        );
-
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(data.error || "API request failed");
-        }
-
+        // GitHub Pages does not provide this API endpoint automatically.
         document.getElementById("carrier").textContent =
-            data.carrier || "Not available";
+            "API not connected";
 
-        let timezone = data.timezone || data.timezones;
+        document.getElementById("timezone").textContent =
+            phoneNumber.country === "IN"
+                ? "Asia/Kolkata (IST, UTC+05:30)"
+                : "Not available";
 
-// India ka standard timezone fallback
-if (
-    (!timezone ||
-        (Array.isArray(timezone) && timezone.length === 0)) &&
-    phoneNumber.country === "IN"
-) {
-    timezone = "Asia/Kolkata (IST, UTC+05:30)";
-}
-
-if (Array.isArray(timezone)) {
-    timezone = timezone.join(", ");
-}
-
-document.getElementById("timezone").textContent =
-    timezone || "Not available";
-
-        if (data.location) {
-            document.getElementById("region").textContent =
-                data.location;
-        }
-
-        const terminal = document.getElementById("terminal");
-
-        terminal.innerHTML += `
-            <div class="terminal-line">[OK] Number parsed successfully.</div>
-            <div class="terminal-line">[OK] Country: ${escapeHTML(data.country_code || phoneNumber.country || "Unknown")}</div>
-            <div class="terminal-line">[OK] Calling Code: +${escapeHTML(phoneNumber.countryCallingCode)}</div>
-            <div class="terminal-line">[OK] Valid: ${data.valid ? "YES" : "NO"}</div>
-            <div class="terminal-line">[API] Carrier: ${escapeHTML(data.carrier || "Not available")}</div>
-            <div class="terminal-line">[API] Location: ${escapeHTML(data.location || "Not available")}</div>
-            <div class="terminal-line">[INFO] Private identity data is not accessed.</div>
+        terminal.innerHTML = `
+            <div class="terminal-line">[OK] Number format checked.</div>
+            <div class="terminal-line">[INFO] Country: ${
+                escapeHTML(phoneNumber.country || "Unknown")
+            }</div>
+            <div class="terminal-line">[INFO] Calling code: +${
+                escapeHTML(phoneNumber.countryCallingCode)
+            }</div>
+            <div class="terminal-line">[INFO] Valid numbering format: YES</div>
+            <div class="terminal-line">[INFO] Carrier lookup: API not connected.</div>
+            <div class="terminal-line">[INFO] Private identity data was not accessed.</div>
             <div class="terminal-line">root@mr-error:~$ <span class="cursor"></span></div>
         `;
+
     } catch (error) {
-        console.error(error);
+        console.error("Phone analysis error:", error);
+
+        setPremiumViewState(false);
         showInvalid();
 
-        document.getElementById("terminal").innerHTML += `
-            <div class="terminal-line">[ERROR] ${escapeHTML(error.message)}</div>
-            <div class="terminal-line">Check that the API backend is running and configured.</div>
-            <div class="terminal-line">root@mr-error:~$ <span class="cursor"></span></div>
+        terminal.innerHTML += `
+            <div class="terminal-line">[ERROR] Could not parse this number.</div>
+            <div class="terminal-line">[INFO] Check the international number format.</div>
         `;
     } finally {
-        const scanButton = document.getElementById("scanButton");
         scanButton.disabled = false;
         scanButton.textContent = "SCAN";
     }
 }
-
 /* COPY RESULTS */
 function copyResults() {
     const results = `
