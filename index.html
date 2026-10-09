@@ -1124,11 +1124,13 @@ async function analyzeNumber(input) {
         // No default country is supplied: international calling code is required.
         const phoneNumber = libphonenumber.parsePhoneNumber(input);
 
-        if (!phoneNumber) {
-            showInvalid();
-            return;
-        }
+       if (!phoneNumber) {
+    showInvalid();
+    setPremiumViewState(false);
+    return;
+}
 
+setPremiumViewState(true);
         document.getElementById("phone").textContent =
             maskPhoneNumber(phoneNumber.number);
 
