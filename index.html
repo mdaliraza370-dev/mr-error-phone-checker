@@ -1145,7 +1145,7 @@ async function analyzeNumber(input) {
         }
 
         // Basic phone-number metadata only
-        setPremiumViewState(false);
+        setPremiumViewState(true);
 
         document.getElementById("phone").textContent =
             maskPhoneNumber(phoneNumber.number);
