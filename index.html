@@ -1177,10 +1177,44 @@ async function analyzeNumber(input) {
         document.getElementById("region").textContent =
             phoneNumber.country || "Unknown";
 
-        // GitHub Pages does not provide this API endpoint automatically.
-        document.getElementById("carrier").textContent =
-            "API not connected";
+        // Fetch number metadata from the Render backend
+const carrierField = document.getElementById("carrier");
+const timezoneField = document.getElementById("timezone");
 
+carrierField.textContent = "Checking carrier...";
+
+try {
+    const response = await fetch(
+        `/api/scan?number=${encodeURIComponent(phoneNumber.number)}`
+    );
+
+    const apiData = await response.json();
+
+    if (!response.ok) {
+        throw new Error(apiData.error || "Carrier lookup failed");
+    }
+
+    carrierField.textContent =
+        apiData.carrier || "Carrier unavailable";
+
+    // Use the API's region when available
+    if (apiData.location) {
+        document.getElementById("region").textContent =
+            apiData.location;
+    }
+
+    // Show timezone only when the API provides it
+    timezoneField.textContent =
+        apiData.time_zone?.name ||
+        (apiData.country_code === "IN"
+            ? "Asia/Kolkata (IST, UTC+05:30)"
+            : "Not available");
+
+} catch (error) {
+    console.error("Carrier API error:", error);
+    carrierField.textContent = "Lookup failed";
+    timezoneField.textContent = "Not available";
+}
         document.getElementById("timezone").textContent =
             phoneNumber.country === "IN"
                 ? "Asia/Kolkata (IST, UTC+05:30)"
